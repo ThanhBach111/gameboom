@@ -7,10 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
-import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Grass;
-import uet.oop.bomberman.entities.Wall;
+import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.BufferedReader;
@@ -19,11 +16,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class BombermanGame extends Application {
     
-    public static final int WIDTH = 16;
-    public static final int HEIGHT = 16;
+    public static final int WIDTH = 15;
+    public static final int HEIGHT = 15;
     
     private GraphicsContext gc;
     private Canvas canvas;
@@ -62,8 +60,9 @@ public class BombermanGame extends Application {
         timer.start();
 
         createMap();
+        createBot();
 
-        Entity bomberman = new Bomber(1, 1, Sprite.captain.getFxImage());
+        Entity bomberman = new Bomber(1, 1, Sprite.player.getFxImage());
         entities.add(bomberman);
     }
 
@@ -74,11 +73,12 @@ public class BombermanGame extends Application {
                 if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1) {
                     object = new Wall(i, j, Sprite.wall.getFxImage());
                 }
-                else if(i%2==0&&j%2==0){
-                    object = new Wall(i, j, Sprite.wall.getFxImage());
-                }
                 else {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
+                }
+                stillObjects.add(object);
+                if(i%2==0&&j%2==0&&i>1&&j>1&&i<WIDTH-1&&j<HEIGHT-1){
+                    object = new Wall(i, j, Sprite.cay.getFxImage());
                 }
                 stillObjects.add(object);
             }
@@ -86,6 +86,15 @@ public class BombermanGame extends Application {
 
     }
 
+    public void createBot(){
+
+        for (int j = 0; j < HEIGHT; j++) {
+            if (j % 2 == 1 && j > 1) {
+                Entity object = new Bot(1, j, Sprite.bot.getFxImage());
+                entities.add(object);
+            }
+        }
+    }
     public void update() {
         entities.forEach(Entity::update);
     }

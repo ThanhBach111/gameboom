@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import uet.oop.bomberman.BombermanGame;
 
 public class Bomber extends Entity {
 
@@ -14,6 +15,9 @@ public class Bomber extends Entity {
 
     @Override
     public void update() {
+
+            x = x + 1;
+            y = y;
 
     }
 }

@@ -24,7 +24,10 @@ public class Sprite {
 	public static Sprite captain = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.captain, 0,0);
 	public static Sprite wall = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.wall_, 0,0);
 	public static Sprite grass = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.grass_, 0,0);
-	
+	public static Sprite cay = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.cay_, 0,0);
+	public static Sprite bot = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.bot, 0,0);
+	public static Sprite bot_right = new Sprite(DEFAULT_SIZE, 0, 2, SpriteSheet.bot, 0,0);
+	public static Sprite player = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.player, 0,0);
 	public Sprite(int size, int x, int y, SpriteSheet sheet, int rw, int rh) {
 		SIZE = size;
 		_pixels = new int[SIZE * SIZE];
