@@ -20,13 +20,15 @@ import java.util.Scanner;
 
 public class BombermanGame extends Application {
     
-    public static final int WIDTH = 15;
+    public static final int WIDTH = 25;
     public static final int HEIGHT = 15;
     
     private GraphicsContext gc;
     private Canvas canvas;
-    private List<Entity> entities = new ArrayList<>();
+    private List<Bot> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
+    private List<Entity> player = new ArrayList<>();
+
 
 
     public static void main(String[] args) {
@@ -51,8 +53,11 @@ public class BombermanGame extends Application {
         stage.show();
 
         AnimationTimer timer = new AnimationTimer() {
+
             @Override
             public void handle(long l) {
+
+
                 render();
                 update();
             }
@@ -60,10 +65,10 @@ public class BombermanGame extends Application {
         timer.start();
 
         createMap();
-        createBot();
+        createBot(2);
 
         Entity bomberman = new Bomber(1, 1, Sprite.player.getFxImage());
-        entities.add(bomberman);
+        player.add(bomberman);
     }
 
     public void createMap() {
@@ -86,22 +91,32 @@ public class BombermanGame extends Application {
 
     }
 
-    public void createBot(){
+    public void createBot(int a){
 
         for (int j = 0; j < HEIGHT; j++) {
             if (j % 2 == 1 && j > 1) {
-                Entity object = new Bot(1, j, Sprite.bot.getFxImage());
+
+                Bot object = new Bot(a, j, Sprite.bot_right1.getFxImage());
                 entities.add(object);
+
             }
         }
     }
+
+
     public void update() {
-        entities.forEach(Entity::update);
+        for (int i = 0; i < entities.size(); i++) {
+
+            entities.get(i).update();
+        }
+        player.get(0).update();
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
         stillObjects.forEach(g -> g.render(gc));
-        entities.forEach(g -> g.render(gc));
+        entities.forEach(g->g.render(gc));
+        player.forEach(g->g.render(gc));
     }
 }

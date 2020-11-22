@@ -26,7 +26,10 @@ public class Sprite {
 	public static Sprite grass = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.grass_, 0,0);
 	public static Sprite cay = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.cay_, 0,0);
 	public static Sprite bot = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.bot, 0,0);
-	public static Sprite bot_right = new Sprite(DEFAULT_SIZE, 0, 2, SpriteSheet.bot, 0,0);
+	public static Sprite bot_right1 = new Sprite(DEFAULT_SIZE, 0, 2, SpriteSheet.bot, 0,0);
+	public static Sprite bot_right2= new Sprite(DEFAULT_SIZE, 1, 2, SpriteSheet.bot, 0,0);
+	public static Sprite bot_right3 = new Sprite(DEFAULT_SIZE, 2, 2, SpriteSheet.bot, 0,0);
+	public static Sprite bot_right4 = new Sprite(DEFAULT_SIZE, 3, 2, SpriteSheet.bot, 0,0);
 	public static Sprite player = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.player, 0,0);
 	public Sprite(int size, int x, int y, SpriteSheet sheet, int rw, int rh) {
 		SIZE = size;
@@ -88,7 +91,7 @@ public class Sprite {
 	}
 
 	public Image getFxImage() {
-        WritableImage wr = new WritableImage(SIZE, SIZE);
+        WritableImage wr = new WritableImage(SIZE,SIZE);
         PixelWriter pw = wr.getPixelWriter();
         for (int x = 0; x < SIZE; x++) {
             for (int y = 0; y < SIZE; y++) {
@@ -101,7 +104,7 @@ public class Sprite {
             }
         }
         Image input = new ImageView(wr).getImage();
-        return resample(input, SCALED_SIZE / DEFAULT_SIZE);
+        return resample(input, 2);
     }
 
 	private Image resample(Image input, int scaleFactor) {
