@@ -18,5 +18,16 @@ public class Bomber extends Entity {
 
     }
 
-
+    public void moveup(){
+        y--;
+    }
+    public void movedown(){
+        y++;
+    }
+    public void moveleft(){
+        x--;
+    }
+    public void moveright(){
+        x++;
+    }
 }

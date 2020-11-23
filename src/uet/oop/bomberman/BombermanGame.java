@@ -2,10 +2,12 @@ package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
@@ -20,15 +22,15 @@ import java.util.Scanner;
 
 public class BombermanGame extends Application {
     
-    public static final int WIDTH = 25;
+    public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
     
     private GraphicsContext gc;
     private Canvas canvas;
     private List<Bot> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
-    private List<Entity> player = new ArrayList<>();
-
+    private List<Bomber> player = new ArrayList<>();
+    boolean running, goNorth, goSouth, goEast, goWest;
 
 
     public static void main(String[] args) {
@@ -51,6 +53,25 @@ public class BombermanGame extends Application {
         // Them scene vao stage
         stage.setScene(scene);
         stage.show();
+        scene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case UP:    goNorth = true; break;
+                case DOWN:  goSouth = true; break;
+                case LEFT:  goWest  = true; break;
+                case RIGHT: goEast  = true; break;
+                case SHIFT: running = true; break;
+            }
+        });
+
+        scene.setOnKeyReleased(event -> {
+            switch (event.getCode()) {
+                case UP:    goNorth = false; break;
+                case DOWN:  goSouth = false; break;
+                case LEFT:  goWest  = false; break;
+                case RIGHT: goEast  = false; break;
+                case SHIFT: running = false; break;
+            }
+        });
 
         AnimationTimer timer = new AnimationTimer() {
 
@@ -58,8 +79,17 @@ public class BombermanGame extends Application {
             public void handle(long l) {
 
 
+                if (goNorth) player.get(0).moveup();
+                if (goSouth) player.get(0).movedown();
+                if (goEast) player.get(0).moveright();
+                if (goWest)  player.get(0).moveleft();
+
+
+
+
                 render();
                 update();
+
             }
         };
         timer.start();
@@ -67,7 +97,7 @@ public class BombermanGame extends Application {
         createMap();
         createBot(2);
 
-        Entity bomberman = new Bomber(1, 1, Sprite.player.getFxImage());
+        Bomber bomberman = new Bomber(1, 1, Sprite.player.getFxImage());
         player.add(bomberman);
     }
 
@@ -105,11 +135,8 @@ public class BombermanGame extends Application {
 
 
     public void update() {
-        for (int i = 0; i < entities.size(); i++) {
+        entities.forEach(Entity::update);
 
-            entities.get(i).update();
-        }
-        player.get(0).update();
     }
 
     public void render() {

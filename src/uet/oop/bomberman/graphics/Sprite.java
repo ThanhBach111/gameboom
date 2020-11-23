@@ -30,6 +30,10 @@ public class Sprite {
 	public static Sprite bot_right2= new Sprite(DEFAULT_SIZE, 1, 2, SpriteSheet.bot, 0,0);
 	public static Sprite bot_right3 = new Sprite(DEFAULT_SIZE, 2, 2, SpriteSheet.bot, 0,0);
 	public static Sprite bot_right4 = new Sprite(DEFAULT_SIZE, 3, 2, SpriteSheet.bot, 0,0);
+	public static Sprite bot_left1 = new Sprite(DEFAULT_SIZE, 0, 1, SpriteSheet.bot, 0,0);
+	public static Sprite bot_left2= new Sprite(DEFAULT_SIZE, 1, 1, SpriteSheet.bot, 0,0);
+	public static Sprite bot_left3 = new Sprite(DEFAULT_SIZE, 2, 1, SpriteSheet.bot, 0,0);
+	public static Sprite bot_left4 = new Sprite(DEFAULT_SIZE, 3, 1, SpriteSheet.bot, 0,0);
 	public static Sprite player = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.player, 0,0);
 	public Sprite(int size, int x, int y, SpriteSheet sheet, int rw, int rh) {
 		SIZE = size;
