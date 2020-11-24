@@ -123,25 +123,25 @@ public class BombermanGame extends Application {
     }
     public boolean checkup(){
         for(int i=0;i<stillObjects.size();i++){
-            if(stillObjects.get(i).getY()/64+1==(player.get(0).getY()+8)/64&&stillObjects.get(i).getX()/64==(player.get(0).getX()+8)/64) return false;
+            if(stillObjects.get(i).getY()/64==player.get(0).getY()/64&&stillObjects.get(i).getX()/64==(player.get(0).getX()+8)/64) return false;
         }
         return true;
     }
     public boolean checkdown(){
         for(int i=0;i<stillObjects.size();i++){
-            if(stillObjects.get(i).getY()/64-1==(player.get(0).getY()+8)/64&&stillObjects.get(i).getX()/64==(player.get(0).getX()+8)/64) return false;
+            if(stillObjects.get(i).getY()/64-1==player.get(0).getY()/64&&stillObjects.get(i).getX()/64==(player.get(0).getX()+8)/64) return false;
         }
         return true;
     }
     public boolean checkleft(){
         for(int i=0;i<stillObjects.size();i++){
-            if(stillObjects.get(i).getY()/64==(player.get(0).getY()+8)/64&&stillObjects.get(i).getX()/64+1==(player.get(0).getX()+8)/64) return false;
+            if(stillObjects.get(i).getY()/64==(player.get(0).getY()+8)/64&&stillObjects.get(i).getX()/64==player.get(0).getX()/64) return false;
         }
         return true;
     }
     public boolean checkright(){
         for(int i=0;i<stillObjects.size();i++){
-            if(stillObjects.get(i).getY()/64==(player.get(0).getY()+8)/64&&stillObjects.get(i).getX()/64-1==(player.get(0).getX()+8)/64) return false;
+            if(stillObjects.get(i).getY()/64==(player.get(0).getY()+8)/64&&stillObjects.get(i).getX()/64-1==player.get(0).getX()/64) return false;
         }
         return true;
     }
