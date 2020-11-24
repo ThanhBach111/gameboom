@@ -21,10 +21,11 @@ public class Sprite {
 	protected int _realHeight;
 	private SpriteSheet _sheet;
 
-	public static Sprite captain = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.captain, 0,0);
+
 	public static Sprite wall = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.wall_, 0,0);
 	public static Sprite grass = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.grass_, 0,0);
 	public static Sprite cay = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.cay_, 0,0);
+
 	public static Sprite bot = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.bot, 0,0);
 	public static Sprite bot_right1 = new Sprite(DEFAULT_SIZE, 0, 2, SpriteSheet.bot, 0,0);
 	public static Sprite bot_right2= new Sprite(DEFAULT_SIZE, 1, 2, SpriteSheet.bot, 0,0);
@@ -34,7 +35,25 @@ public class Sprite {
 	public static Sprite bot_left2= new Sprite(DEFAULT_SIZE, 1, 1, SpriteSheet.bot, 0,0);
 	public static Sprite bot_left3 = new Sprite(DEFAULT_SIZE, 2, 1, SpriteSheet.bot, 0,0);
 	public static Sprite bot_left4 = new Sprite(DEFAULT_SIZE, 3, 1, SpriteSheet.bot, 0,0);
+
 	public static Sprite player = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.player, 0,0);
+	public static Sprite player_down1 = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.player, 0,0);
+	public static Sprite player_down2 = new Sprite(DEFAULT_SIZE, 1, 0, SpriteSheet.player, 0,0);
+	public static Sprite player_down3 = new Sprite(DEFAULT_SIZE, 2, 0, SpriteSheet.player, 0,0);
+	public static Sprite player_down4 = new Sprite(DEFAULT_SIZE, 3, 0, SpriteSheet.player, 0,0);
+	public static Sprite player_up1 = new Sprite(DEFAULT_SIZE, 0, 3, SpriteSheet.player, 0,0);
+	public static Sprite player_up2 = new Sprite(DEFAULT_SIZE, 1, 3, SpriteSheet.player, 0,0);
+	public static Sprite player_up3 = new Sprite(DEFAULT_SIZE, 2, 3, SpriteSheet.player, 0,0);
+	public static Sprite player_up4 = new Sprite(DEFAULT_SIZE, 3, 3, SpriteSheet.player, 0,0);
+	public static Sprite player_left1 = new Sprite(DEFAULT_SIZE, 0, 1, SpriteSheet.player, 0,0);
+	public static Sprite player_left2 = new Sprite(DEFAULT_SIZE, 1, 1, SpriteSheet.player, 0,0);
+	public static Sprite player_left3 = new Sprite(DEFAULT_SIZE, 2, 1, SpriteSheet.player, 0,0);
+	public static Sprite player_left4 = new Sprite(DEFAULT_SIZE, 3, 1, SpriteSheet.player, 0,0);
+	public static Sprite player_right1 = new Sprite(DEFAULT_SIZE, 0, 2, SpriteSheet.player, 0,0);
+	public static Sprite player_right2 = new Sprite(DEFAULT_SIZE, 1, 2, SpriteSheet.player, 0,0);
+	public static Sprite player_right3 = new Sprite(DEFAULT_SIZE, 2, 2, SpriteSheet.player, 0,0);
+	public static Sprite player_right4 = new Sprite(DEFAULT_SIZE, 3, 2, SpriteSheet.player, 0,0);
+
 	public Sprite(int size, int x, int y, SpriteSheet sheet, int rw, int rh) {
 		SIZE = size;
 		_pixels = new int[SIZE * SIZE];

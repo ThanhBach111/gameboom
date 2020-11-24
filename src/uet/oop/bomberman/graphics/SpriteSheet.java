@@ -17,10 +17,10 @@ public class SpriteSheet {
 	public BufferedImage image;
 
 
-	public static SpriteSheet captain = new SpriteSheet("/textures/captainamerica_shield.png", 192);
-	public static SpriteSheet player = new SpriteSheet("/textures/player.png", 192);
+
+	public static SpriteSheet player = new SpriteSheet("/textures/player1.png", 128);
 	public static SpriteSheet grass_ = new SpriteSheet("/textures/floor.png", 32);
-	public static SpriteSheet wall_ = new SpriteSheet("/textures/wall.png", 32);
+	public static SpriteSheet wall_ = new SpriteSheet("/textures/stone.png", 32);
 	public static SpriteSheet cay_ = new SpriteSheet("/textures/cay.png", 32);
 	public static SpriteSheet bot = new SpriteSheet("/textures/bot.png", 128);
 	public SpriteSheet(String path, int size) {

@@ -30,7 +30,8 @@ public class BombermanGame extends Application {
     private List<Bot> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
     private List<Bomber> player = new ArrayList<>();
-    boolean running, goNorth, goSouth, goEast, goWest;
+    private List<Grass> nen = new ArrayList<>();
+    boolean datbom, goNorth, goSouth, goEast, goWest;
 
 
     public static void main(String[] args) {
@@ -59,7 +60,7 @@ public class BombermanGame extends Application {
                 case DOWN:  goSouth = true; break;
                 case LEFT:  goWest  = true; break;
                 case RIGHT: goEast  = true; break;
-                case SHIFT: running = true; break;
+                case SPACE: datbom = true; break;
             }
         });
 
@@ -69,7 +70,7 @@ public class BombermanGame extends Application {
                 case DOWN:  goSouth = false; break;
                 case LEFT:  goWest  = false; break;
                 case RIGHT: goEast  = false; break;
-                case SHIFT: running = false; break;
+                case SPACE: datbom = false; break;
             }
         });
 
@@ -79,10 +80,10 @@ public class BombermanGame extends Application {
             public void handle(long l) {
 
 
-                if (goNorth) player.get(0).moveup();
-                if (goSouth) player.get(0).movedown();
-                if (goEast) player.get(0).moveright();
-                if (goWest)  player.get(0).moveleft();
+                if (goNorth&&checkup()) player.get(0).moveup();
+                else if (goSouth&&checkdown()) player.get(0).movedown();
+                else if (goEast&&checkright()) player.get(0).moveright();
+                else if (goWest&&checkleft())  player.get(0).moveleft();
 
 
 
@@ -104,21 +105,45 @@ public class BombermanGame extends Application {
     public void createMap() {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
+                Grass co = new Grass(i, j, Sprite.grass.getFxImage());
+                nen.add(co);
                 Entity object;
                 if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1) {
                     object = new Wall(i, j, Sprite.wall.getFxImage());
+                    stillObjects.add(object);
                 }
-                else {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
-                }
-                stillObjects.add(object);
                 if(i%2==0&&j%2==0&&i>1&&j>1&&i<WIDTH-1&&j<HEIGHT-1){
                     object = new Wall(i, j, Sprite.cay.getFxImage());
+                    stillObjects.add(object);
                 }
-                stillObjects.add(object);
+
             }
         }
 
+    }
+    public boolean checkup(){
+        for(int i=0;i<stillObjects.size();i++){
+            if(stillObjects.get(i).getY()/64+1==(player.get(0).getY()+8)/64&&stillObjects.get(i).getX()/64==(player.get(0).getX()+8)/64) return false;
+        }
+        return true;
+    }
+    public boolean checkdown(){
+        for(int i=0;i<stillObjects.size();i++){
+            if(stillObjects.get(i).getY()/64-1==(player.get(0).getY()+8)/64&&stillObjects.get(i).getX()/64==(player.get(0).getX()+8)/64) return false;
+        }
+        return true;
+    }
+    public boolean checkleft(){
+        for(int i=0;i<stillObjects.size();i++){
+            if(stillObjects.get(i).getY()/64==(player.get(0).getY()+8)/64&&stillObjects.get(i).getX()/64+1==(player.get(0).getX()+8)/64) return false;
+        }
+        return true;
+    }
+    public boolean checkright(){
+        for(int i=0;i<stillObjects.size();i++){
+            if(stillObjects.get(i).getY()/64==(player.get(0).getY()+8)/64&&stillObjects.get(i).getX()/64-1==(player.get(0).getX()+8)/64) return false;
+        }
+        return true;
     }
 
     public void createBot(int a){
@@ -141,7 +166,7 @@ public class BombermanGame extends Application {
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
+        nen.forEach(g->g.render(gc));
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g->g.render(gc));
         player.forEach(g->g.render(gc));
