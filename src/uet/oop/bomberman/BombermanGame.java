@@ -6,14 +6,22 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BombermanGame extends Application {
+    Stage stage;
+    Group root;
+    Scene scene, scene1;
 
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
@@ -28,7 +36,7 @@ public class BombermanGame extends Application {
     public static List<Bom> boms = new ArrayList<>();
     boolean datbom, goNorth, goSouth, goEast, goWest;
 
-    public Scene scene;
+
 
 
     public static void main(String[] args) {
@@ -37,7 +45,49 @@ public class BombermanGame extends Application {
 
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage primaryStage) throws Exception {
+        stage = primaryStage;
+
+        scene1 = createSceneGui();
+        scene = createSceneofGame();
+
+        stage.setScene(scene1);
+        stage.show();
+    }
+
+    private Scene createSceneGui() throws FileNotFoundException {
+        stage.setTitle("Game Boom");
+
+        //background image
+        FileInputStream input = new FileInputStream("res/textures/background_Menu.png");
+        Image image = new Image(input);
+        ImageView imageView = new ImageView(image);
+
+        //playimage
+        FileInputStream inputStream = new FileInputStream("res/textures/Play.png");
+        Image image1 = new Image(inputStream);
+        ImageView imageView1 = new ImageView(image1);
+
+        Button startgame = new Button("", imageView1);
+        startgame.setMaxSize(100, 50);
+        startgame.setLayoutX(400);
+        startgame.setLayoutY(250);
+        startgame.setWrapText(true);
+
+        startgame.setOnAction(e -> switchScene(scene));
+
+        root = new Group();
+
+        root.getChildren().add(imageView);
+        root.getChildren().add(startgame);
+
+        scene1 = new Scene(root, 905 ,670);
+        stage.setScene(scene1);
+        stage.show();
+
+        return scene1;
+    }
+    private Scene createSceneofGame() {
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
@@ -98,6 +148,7 @@ public class BombermanGame extends Application {
 
         Bomber bomberman = new Bomber(1, 1, Sprite.player.getFxImage());
         player.add(bomberman);
+        return scene;
     }
 
     public void createMap() {
@@ -220,5 +271,8 @@ public class BombermanGame extends Application {
         stillObjects.forEach(g -> g.render(gc));
 
         player.forEach(g->g.render(gc));
+    }
+    public void switchScene(Scene scene) {
+        stage.setScene(scene);
     }
 }
