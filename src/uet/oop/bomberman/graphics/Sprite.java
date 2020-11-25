@@ -1,10 +1,6 @@
 package uet.oop.bomberman.graphics;
 
 import javafx.scene.image.*;
-import sun.security.provider.ConfigFile;
-
-import java.awt.image.BufferedImage;
-import java.nio.IntBuffer;
 
 /**
  * Lưu trữ thông tin các pixel của 1 sprite (hình ảnh game)
@@ -22,9 +18,19 @@ public class Sprite {
 	private SpriteSheet _sheet;
 
 
-	public static Sprite wall = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.wall_, 0,0);
-	public static Sprite grass = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.grass_, 0,0);
-	public static Sprite cay = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.cay_, 0,0);
+	public static Sprite wall = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.wall, 0,0);
+	public static Sprite grass = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.grass, 0,0);
+	public static Sprite cay = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.cay, 0,0);
+	public static Sprite door= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.door,0,0);
+
+	public static Sprite bom=new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.bom,0,0);
+	public static Sprite bom1=new Sprite(DEFAULT_SIZE,1,0,SpriteSheet.bom,1,0);
+	public static Sprite bom2=new Sprite(DEFAULT_SIZE,2,0,SpriteSheet.bom,2,0);
+	public static Sprite bombom=new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.bombom,0,0);
+	public static Sprite bomup=new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.bomup,0,0);
+	public static Sprite bomdown=new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.bomdown,0,0);
+	public static Sprite bomleft=new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.bomleft,0,0);
+	public static Sprite bomright=new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.bomright,0,0);
 
 	public static Sprite bot = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.bot, 0,0);
 	public static Sprite bot_right1 = new Sprite(DEFAULT_SIZE, 0, 2, SpriteSheet.bot, 0,0);

@@ -2,23 +2,16 @@ package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 
 public class BombermanGame extends Application {
     
@@ -27,10 +20,12 @@ public class BombermanGame extends Application {
     
     private GraphicsContext gc;
     private Canvas canvas;
-    private List<Bot> entities = new ArrayList<>();
-    private List<Entity> stillObjects = new ArrayList<>();
-    private List<Bomber> player = new ArrayList<>();
-    private List<Grass> nen = new ArrayList<>();
+    public static List<Explode> explodes = new ArrayList<>();
+    private final List<Bot> entities = new ArrayList<>();
+    private final List<Entity> stillObjects = new ArrayList<>();
+    private final List<Bomber> player = new ArrayList<>();
+    private final List<Grass> nen = new ArrayList<>();
+    public static List<Bom> boms = new ArrayList<>();
     boolean datbom, goNorth, goSouth, goEast, goWest;
 
 
@@ -84,10 +79,9 @@ public class BombermanGame extends Application {
                 else if (goSouth&&checkdown()) player.get(0).movedown();
                 else if (goEast&&checkright()) player.get(0).moveright();
                 else if (goWest&&checkleft())  player.get(0).moveleft();
-
-
-
-
+                if(datbom) setDatbom();
+                botcheckdie();
+                checkdie();
                 render();
                 update();
 
@@ -96,7 +90,7 @@ public class BombermanGame extends Application {
         timer.start();
 
         createMap();
-        createBot(2);
+        createBot();
 
         Bomber bomberman = new Bomber(1, 1, Sprite.player.getFxImage());
         player.add(bomberman);
@@ -119,39 +113,86 @@ public class BombermanGame extends Application {
 
             }
         }
+        Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
+        nen.add(point);
 
     }
     public boolean checkup(){
-        for(int i=0;i<stillObjects.size();i++){
-            if(stillObjects.get(i).getY()/64==player.get(0).getY()/64&&stillObjects.get(i).getX()/64==(player.get(0).getX()+8)/64) return false;
+        for (Entity stillObject : stillObjects) {
+            if (stillObject.getY() / 64 == (player.get(0).getY() - 1) / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 8) / 64)
+                return false;
         }
         return true;
     }
     public boolean checkdown(){
-        for(int i=0;i<stillObjects.size();i++){
-            if(stillObjects.get(i).getY()/64-1==player.get(0).getY()/64&&stillObjects.get(i).getX()/64==(player.get(0).getX()+8)/64) return false;
+        for (Entity stillObject : stillObjects) {
+            if (stillObject.getY() / 64 - 1 == player.get(0).getY() / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 8) / 64)
+                return false;
         }
         return true;
     }
     public boolean checkleft(){
-        for(int i=0;i<stillObjects.size();i++){
-            if(stillObjects.get(i).getY()/64==(player.get(0).getY()+8)/64&&stillObjects.get(i).getX()/64==player.get(0).getX()/64) return false;
+        for (Entity stillObject : stillObjects) {
+            if (stillObject.getY() / 64 == player.get(0).getY() / 64 && stillObject.getX() / 64 == (player.get(0).getX() - 1) / 64)
+                return false;
         }
         return true;
     }
     public boolean checkright(){
-        for(int i=0;i<stillObjects.size();i++){
-            if(stillObjects.get(i).getY()/64==(player.get(0).getY()+8)/64&&stillObjects.get(i).getX()/64-1==player.get(0).getX()/64) return false;
+        for (Entity stillObject : stillObjects) {
+            if (stillObject.getY() / 64 == player.get(0).getY() / 64 && stillObject.getX() / 64 - 1 == player.get(0).getX() / 64)
+                return false;
         }
         return true;
     }
+    public void checkdie(){
+        for (Bot entity : entities) {
+            if ((entity.getX() + 64 >= player.get(0).getX() && entity.getX() - 32 <= player.get(0).getX()) && (entity.getY() - 48 <= player.get(0).getY() && entity.getY() + 48 >= player.get(0).getY())) {
+                player.get(0).update();
+            }
+        }
+        for (Explode explode : explodes) {
+            if (explode.getX() == player.get(0).getX()) {
+                if (explode.getY() / 64 == (player.get(0).getY() + 48) / 64 || explode.getY() / 64 == (player.get(0).getY()+32) / 64) {
+                    player.get(0).update();
+                }
+            }
+            if (explode.getY() == player.get(0).getY()) {
+                if (explode.getX() / 64 == (player.get(0).getX() + 48) / 64 || explode.getX() / 64 == (player.get(0).getX()+32) / 64) {
+                    player.get(0).update();
+                }
+            }
+        }
+    }
+    public void botcheckdie(){
+        for(int j=0;j<entities.size();j++){
+            for (Explode explode : explodes) {
+                if (explode.getX() == entities.get(j).getX()) {
+                    if (explode.getY() / 64 == (entities.get(j).getY() + 48) / 64 || explode.getY() / 64 == (entities.get(j).getY() - 16) / 64) {
+                        entities.remove(j);
+                    }
+                }
+                if (explode.getY() == entities.get(j).getY()) {
+                    if (explode.getX() / 64 == (entities.get(j).getX() + 48) / 64 || explode.getX() / 64 == (entities.get(j).getX() - 16) / 64) {
+                        entities.remove(j);
+                    }
+                }
+            }
+        }
+    }
+    public void setDatbom() {
+        if(boms.size()==0) {
+            Bom bom = new Bom((player.get(0).getX() + 32) / 64, (player.get(0).getY() + 32) / 64, Sprite.bom.getFxImage());
+            boms.add(bom);
+        }
+    }
 
-    public void createBot(int a){
+    public void createBot(){
 
         for (int j = 0; j < HEIGHT; j++) {
             if (j % 2 == 1 && j > 1) {
 
-                Bot object = new Bot(a, j, Sprite.bot_right1.getFxImage());
+                Bot object = new Bot(j-1, j, Sprite.bot_right1.getFxImage());
                 entities.add(object);
 
             }
@@ -161,14 +202,19 @@ public class BombermanGame extends Application {
 
     public void update() {
         entities.forEach(Entity::update);
-
+        for (Bom bom : boms) {
+              bom.update();
+        }
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         nen.forEach(g->g.render(gc));
-        stillObjects.forEach(g -> g.render(gc));
+        boms.forEach(g->g.render(gc));
         entities.forEach(g->g.render(gc));
+        explodes.forEach(g->g.render(gc));
+        stillObjects.forEach(g -> g.render(gc));
+
         player.forEach(g->g.render(gc));
     }
 }

@@ -1,11 +1,6 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
@@ -16,15 +11,16 @@ public class Bomber extends Entity {
 
     @Override
     public void update() {
-
+        x=64;
+        y=64;
     }
 
     public void moveup(){
 
-        if(x%64<8) {
+        if(x%64<=8) {
             y--;
             x = x / 64 * 64;
-        }else if(x%64>56) {
+        }else if(x%64>=56) {
             y--;
             x = (x / 64 +1 )* 64;
         }
@@ -40,10 +36,10 @@ public class Bomber extends Entity {
     }
     public void movedown(){
 
-        if(x%64<8) {
+        if(x%64<=8) {
             y++;
             x = x / 64 * 64;
-        }else if(x%64>56) {
+        }else if(x%64>=56) {
             y++;
             x = (x / 64 +1 )* 64;
         }
@@ -59,10 +55,10 @@ public class Bomber extends Entity {
     }
     public void moveleft(){
 
-        if(y%64<8) {
+        if(y%64<=8) {
             x--;
             y= y / 64 * 64;
-        }else if(x%64>56) {
+        }else if(x%64>=56) {
             x--;
             y = (y / 64 +1 )* 64;
         }
@@ -77,10 +73,10 @@ public class Bomber extends Entity {
         }
     }
     public void moveright(){
-        if(y%64<8) {
+        if(y%64<=8) {
             x++;
             y= y / 64 * 64;
-        }else if(x%64>56) {
+        }else if(x%64>=56) {
             x++;
             y = (y / 64 +1 )* 64;
         }
