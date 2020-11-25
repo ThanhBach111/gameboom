@@ -11,6 +11,8 @@ import java.net.URL;
  */
 public class SpriteSheet {
 
+	public static SpriteSheet tiles;
+	public static SpriteSheet captain;
 	private String _path;
 	public final int SIZE;
 	public int[] _pixels;
