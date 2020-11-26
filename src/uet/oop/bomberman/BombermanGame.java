@@ -21,7 +21,7 @@ import java.util.List;
 public class BombermanGame extends Application {
     Stage stage;
     Group root;
-    Scene scene, scene1;
+    Scene scene, scene1,scene2,scene3;
 
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
@@ -50,6 +50,8 @@ public class BombermanGame extends Application {
 
         scene1 = createSceneGui();
         scene = createSceneofGame();
+        scene2=createSceneWin();
+        scene3=createSceneDie();
 
         stage.setScene(scene1);
         stage.show();
@@ -86,6 +88,87 @@ public class BombermanGame extends Application {
         stage.show();
 
         return scene1;
+    }
+    private Scene createSceneWin() throws FileNotFoundException {
+        stage.setTitle("Game Boom");
+
+        //background image
+        FileInputStream input = new FileInputStream("res/textures/win.jpg");
+        Image image = new Image(input);
+        ImageView imageView = new ImageView(image);
+
+        FileInputStream inputStream = new FileInputStream("res/textures/newgame_button.png");
+        Image image1 = new Image(inputStream);
+        ImageView imageView1 = new ImageView(image1);
+
+        Button newgame = new Button("", imageView1);
+        newgame.setMaxSize(100, 50);
+        newgame.setLayoutX(350);
+        newgame.setLayoutY(350);
+        newgame.setWrapText(true);
+
+        newgame.setOnAction(e -> {
+            switchScene(scene1);
+
+        });
+        root = new Group();
+
+        root.getChildren().add(imageView);
+        root.getChildren().add(newgame);
+
+
+        scene2 = new Scene(root, 852 ,480);
+        stage.setScene(scene2);
+        stage.show();
+        return scene2;
+    }
+    private Scene createSceneDie() throws FileNotFoundException {
+        stage.setTitle("Game Boom");
+
+        //background image
+        FileInputStream input = new FileInputStream("res/textures/game_over.jpg");
+        Image image = new Image(input);
+        ImageView imageView = new ImageView(image);
+        FileInputStream inputStream = new FileInputStream("res/textures/newgame_button.png");
+        Image image1 = new Image(inputStream);
+        ImageView imageView1 = new ImageView(image1);
+
+        Button newgame = new Button("", imageView1);
+        newgame.setMaxSize(100, 50);
+        newgame.setLayoutX(250);
+        newgame.setLayoutY(750);
+        newgame.setWrapText(true);
+
+        newgame.setOnAction(e -> {
+            stage.setScene(scene1);
+
+
+        });
+        FileInputStream inputStream1 = new FileInputStream("res/textures/return_button.png");
+        Image image2 = new Image(inputStream1);
+        ImageView imageView2 = new ImageView(image2);
+
+        Button return_button = new Button("", imageView2);
+        return_button.setMaxSize(100, 50);
+        return_button.setLayoutX(550);
+        return_button.setLayoutY(750);
+        return_button.setWrapText(true);
+
+        return_button.setOnAction(e ->{
+            switchScene(scene);
+
+        });
+
+        root = new Group();
+
+        root.getChildren().add(imageView);
+        root.getChildren().add(newgame);
+        root.getChildren().add(return_button);
+
+        scene3 = new Scene(root, 900 ,900);
+        stage.setScene(scene3);
+        stage.show();
+        return scene3;
     }
     private Scene createSceneofGame() {
         // Tao Canvas
@@ -135,7 +218,19 @@ public class BombermanGame extends Application {
                 else if (goWest&&checkleft())  player.get(0).moveleft();
                 if(datbom) setDatbom();
                 botcheckdie();
-                checkdie();
+                if(checkdie()){
+                    goEast=false;
+                    goNorth=false;
+                    goSouth=false;
+                    goWest=false;
+                    player.get(0).update();
+
+                    stage.setScene(scene3);
+                };
+                if(checkwin()) {
+                    stage.setScene(scene2);
+                    stop();
+                }
                 render();
                 update();
 
@@ -151,6 +246,7 @@ public class BombermanGame extends Application {
         return scene;
     }
 
+
     public void createMap() {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
@@ -161,7 +257,7 @@ public class BombermanGame extends Application {
                     object = new Wall(i, j, Sprite.wall.getFxImage());
                     stillObjects.add(object);
                 }
-                if(i%2==0&&j%2==0&&i>1&&j>1&&i<WIDTH-1&&j<HEIGHT-1){
+                if(i%2==1&&j%2==0&&i>0&&j>1&&i<WIDTH-1&&j<HEIGHT-1){
                     object = new Wall(i, j, Sprite.cay.getFxImage());
                     stillObjects.add(object);
                 }
@@ -200,24 +296,25 @@ public class BombermanGame extends Application {
         }
         return true;
     }
-    public void checkdie(){
+    public boolean checkdie(){
         for (Bot entity : entities) {
             if ((entity.getX() + 64 >= player.get(0).getX() && entity.getX() - 32 <= player.get(0).getX()) && (entity.getY() - 48 <= player.get(0).getY() && entity.getY() + 48 >= player.get(0).getY())) {
-                player.get(0).update();
+                return true;
             }
         }
         for (Explode explode : explodes) {
             if (explode.getX() == player.get(0).getX()) {
                 if (explode.getY() / 64 == (player.get(0).getY() + 48) / 64 || explode.getY() / 64 == (player.get(0).getY()+32) / 64) {
-                    player.get(0).update();
+                    return true;
                 }
             }
             if (explode.getY() == player.get(0).getY()) {
                 if (explode.getX() / 64 == (player.get(0).getX() + 48) / 64 || explode.getX() / 64 == (player.get(0).getX()+32) / 64) {
-                    player.get(0).update();
+                    return true;
                 }
             }
         }
+        return false;
     }
     public void botcheckdie(){
         for(int j=0;j<entities.size();j++){
@@ -243,7 +340,7 @@ public class BombermanGame extends Application {
     }
 
     public void createBot(){
-
+        entities.clear();
         for (int j = 0; j < HEIGHT; j++) {
             if (j % 2 == 1 && j > 1) {
 
@@ -253,7 +350,12 @@ public class BombermanGame extends Application {
             }
         }
     }
-
+    public boolean checkwin(){
+        if(player.get(0).getY()+16>=nen.get(nen.size()-1).getY()&&player.get(0).getX()+16>=nen.get(nen.size()-1).getX()){
+            return true;
+        }
+        return false;
+    }
 
     public void update() {
         entities.forEach(Entity::update);

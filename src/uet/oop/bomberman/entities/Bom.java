@@ -5,7 +5,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bom extends Entity{
-    int a=1000;
+    int a=800;
 
     public Bom(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);

@@ -13,6 +13,7 @@ public class Bomber extends Entity {
     public void update() {
         x=64;
         y=64;
+        img=Sprite.player.getFxImage();
     }
 
     public void moveup(){
