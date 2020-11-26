@@ -29,10 +29,10 @@ public class BombermanGame extends Application {
     private GraphicsContext gc;
     private Canvas canvas;
     public static List<Explode> explodes = new ArrayList<>();
-    private final List<Bot> entities = new ArrayList<>();
-    private final List<Entity> stillObjects = new ArrayList<>();
-    private final List<Bomber> player = new ArrayList<>();
-    private final List<Grass> nen = new ArrayList<>();
+    private List<Bot> entities = new ArrayList<>();
+    private List<Entity> stillObjects = new ArrayList<>();
+    private List<Bomber> player = new ArrayList<>();
+    private List<Grass> nen = new ArrayList<>();
     public static List<Bom> boms = new ArrayList<>();
     boolean datbom, goNorth, goSouth, goEast, goWest;
 
@@ -47,12 +47,10 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-
-        scene1 = createSceneGui();
         scene = createSceneofGame();
+        scene1 = createSceneGui();
         scene2=createSceneWin();
         scene3=createSceneDie();
-
         stage.setScene(scene1);
         stage.show();
     }
@@ -76,7 +74,10 @@ public class BombermanGame extends Application {
         startgame.setLayoutY(250);
         startgame.setWrapText(true);
 
-        startgame.setOnAction(e -> switchScene(scene));
+        startgame.setOnAction(e -> {
+            switchScene(scene);
+            createBot();
+        });
 
         root = new Group();
 
@@ -108,6 +109,7 @@ public class BombermanGame extends Application {
         newgame.setWrapText(true);
 
         newgame.setOnAction(e -> {
+
             switchScene(scene1);
 
         });
@@ -140,9 +142,8 @@ public class BombermanGame extends Application {
         newgame.setWrapText(true);
 
         newgame.setOnAction(e -> {
+
             stage.setScene(scene1);
-
-
         });
         FileInputStream inputStream1 = new FileInputStream("res/textures/return_button.png");
         Image image2 = new Image(inputStream1);
@@ -228,8 +229,13 @@ public class BombermanGame extends Application {
                     stage.setScene(scene3);
                 };
                 if(checkwin()) {
+                    goEast=false;
+                    goNorth=false;
+                    goSouth=false;
+                    goWest=false;
+                    player.get(0).update();
                     stage.setScene(scene2);
-                    stop();
+
                 }
                 render();
                 update();
