@@ -502,6 +502,10 @@ public class BombermanGame extends Application {
             if (stillObject.getY() / 64 == (player.get(0).getY() - 1) / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 8) / 64)
                 return false;
         }
+        for (Entity stillObject : boms) {
+            if (stillObject.getY() / 64 == (player.get(0).getY() - 1) / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 8) / 64)
+                return false;
+        }
         return true;
     }
     public boolean checkdown(){
@@ -510,6 +514,10 @@ public class BombermanGame extends Application {
                 return false;
         }
         for (Entity stillObject : bricks) {
+            if (stillObject.getY() / 64 - 1 == player.get(0).getY() / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 8) / 64)
+                return false;
+        }
+        for (Entity stillObject : boms) {
             if (stillObject.getY() / 64 - 1 == player.get(0).getY() / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 8) / 64)
                 return false;
         }
@@ -524,6 +532,10 @@ public class BombermanGame extends Application {
             if (stillObject.getY() / 64 == player.get(0).getY() / 64 && stillObject.getX() / 64 == (player.get(0).getX() - 1) / 64)
                 return false;
         }
+        for (Entity stillObject : boms) {
+            if (stillObject.getY() / 64 == player.get(0).getY() / 64 && stillObject.getX() / 64 == (player.get(0).getX() - 1) / 64)
+                return false;
+        }
         return true;
     }
     public boolean checkright(){
@@ -532,6 +544,10 @@ public class BombermanGame extends Application {
                 return false;
         }
         for (Entity stillObject : bricks) {
+            if (stillObject.getY() / 64 == player.get(0).getY() / 64 && stillObject.getX() / 64 - 1 == player.get(0).getX() / 64)
+                return false;
+        }
+        for (Entity stillObject : boms) {
             if (stillObject.getY() / 64 == player.get(0).getY() / 64 && stillObject.getX() / 64 - 1 == player.get(0).getX() / 64)
                 return false;
         }
