@@ -16,27 +16,47 @@ public class Bot2 extends Entity{
         if(a==1&&checkup()) {
             moveup();
         } else if(a==1) {
-            img=Sprite.bot_right1.getFxImage();
-            a=2;
-
+            if(checkleft()) {
+                img = Sprite.bot_left1.getFxImage();
+                a = 4;
+            } else {
+                img = Sprite.bot_right1.getFxImage();
+                a = 2;
+            }
         }
         if(a==2&&checkright()) {
             moveright();
         } else if(a==2){
-            img=Sprite.bot_down1.getFxImage();
-            a=3;
+            if(checkup()){
+                img=Sprite.bot_up1.getFxImage();
+                a=1;
+            } else {
+                img = Sprite.bot_down1.getFxImage();
+                a = 3;
+            }
         }
         if(a==3&&checkdown()) {
             movedown();
         } else if(a==3){
-            img=Sprite.bot_left1.getFxImage();
-            a=4;
+            if(checkright()) {
+                img = Sprite.bot_right1.getFxImage();
+                a = 2;
+            }else{
+                    img = Sprite.bot_left1.getFxImage();
+                    a = 4;
+            }
         }
+
         if(a==4&&checkleft()) {
             moveleft();
         } else if(a==4){
-            img=Sprite.bot_up1.getFxImage();
-            a=1;
+            if(checkdown()){
+                img = Sprite.bot_down1.getFxImage();
+                a = 3;
+            } else {
+                img = Sprite.bot_up1.getFxImage();
+                a = 1;
+            }
         }
 
     }

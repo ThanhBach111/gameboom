@@ -13,8 +13,7 @@ import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class BombermanGame extends Application {
     public static List<Brick> bricks = new ArrayList<>();
     public static List<Bom> boms = new ArrayList<>();
     boolean datbom, goNorth, goSouth, goEast, goWest;
-
+    public int man =0;
 
 
 
@@ -79,7 +78,6 @@ public class BombermanGame extends Application {
         startgame.setOnAction(e -> {
             switchScene(scene);
             createMap();
-            createBot();
         });
 
         root = new Group();
@@ -107,7 +105,7 @@ public class BombermanGame extends Application {
 
         Button newgame = new Button("", imageView1);
         newgame.setMaxSize(100, 50);
-        newgame.setLayoutX(225);
+        newgame.setLayoutX(350);
         newgame.setLayoutY(350);
         newgame.setWrapText(true);
 
@@ -116,27 +114,12 @@ public class BombermanGame extends Application {
             switchScene(scene1);
 
         });
-        FileInputStream inputStream1 = new FileInputStream("res/textures/next.jpg");
-        Image image2 = new Image(inputStream1);
-        ImageView imageView2 = new ImageView(image2);
-        Button nextgame = new Button("", imageView2);
-        nextgame.setMaxSize(100, 50);
-        nextgame.setLayoutX(425);
-        nextgame.setLayoutY(350);
-        nextgame.setWrapText(true);
 
-        nextgame.setOnAction(e -> {
-
-            switchScene(scene2);
-
-            createMap();
-
-        });
         root = new Group();
 
         root.getChildren().add(imageView);
         root.getChildren().add(newgame);
-        root.getChildren().add(nextgame);
+
 
 
         scene2 = new Scene(root, 852 ,480);
@@ -177,6 +160,17 @@ public class BombermanGame extends Application {
 
         return_button.setOnAction(e ->{
             switchScene(scene);
+            if(man==1){
+                createMap1();
+            } else if(man==2){
+                createMap2();
+            } else if(man==3){
+                createMap3();
+            } else if(man==4){
+                createMap4();
+            } else if(man==0){
+                createMap();
+            }
 
         });
 
@@ -257,7 +251,18 @@ public class BombermanGame extends Application {
                     goSouth=false;
                     goWest=false;
                     player.get(0).update();
-                    stage.setScene(scene2);
+                    man++;
+                    if(man==1){
+                        createMap1();
+                    } else if(man==2){
+                        createMap2();
+                    } else if(man==3){
+                        createMap3();
+                    } else if(man==4){
+                        createMap4();
+                    } else {
+                        stage.setScene(scene2);
+                    }
 
                 }
                 render();
@@ -280,6 +285,7 @@ public class BombermanGame extends Application {
         bricks.clear();
         stillObjects.clear();
         nen.clear();
+        entities.clear();
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
                 Grass co = new Grass(i, j, Sprite.grass.getFxImage());
@@ -302,6 +308,190 @@ public class BombermanGame extends Application {
         Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
         nen.add(point);
 
+        for (int j = 0; j < HEIGHT; j++) {
+            if (j % 2 == 1 && j > 1) {
+
+                Bot2 object = new Bot2(j-1, j, Sprite.bot_right1.getFxImage());
+                entities.add(object);
+
+            }
+        }
+    }
+
+    public void createMap1() {
+        bricks.clear();
+        stillObjects.clear();
+        nen.clear();
+        entities.clear();
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
+                Grass co = new Grass(i, j, Sprite.grass.getFxImage());
+                nen.add(co);
+            }
+        }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src\\uet\\oop\\bomberman\\graphics\\map1.txt"))) {
+            String line = bufferedReader.readLine();
+            int j=0;
+            while (line != null) {
+                int n=0;
+                String[] cutline = new String[15];
+                for (String w : line.split("\\s", 15)) {
+                    cutline[n]=w;
+                    n++;
+                }
+                for(int i=0;i<n;i++){
+                    if(cutline[i].equals("0")){
+                        Entity object = new Wall(i, j, Sprite.wall.getFxImage());
+                        stillObjects.add(object);
+                    } else if(cutline[i].equals("2")||cutline[i].equals("3")){
+                        Brick brick;
+                        brick = new Brick(i,j, Sprite.brick.getFxImage());
+                        bricks.add(brick);
+                    } else if(cutline[i].equals("4")){
+                        Entity object = new Wall(i, j, Sprite.cay.getFxImage());
+                        stillObjects.add(object);
+                    }else if(cutline[i].equals("5")){
+                        Bot2 object = new Bot2(i, j, Sprite.bot.getFxImage());
+                        entities.add(object);
+                    }
+                }
+                j++;
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
+        nen.add(point);
+    }
+    public void createMap2() {
+        bricks.clear();
+        stillObjects.clear();
+        nen.clear();
+        entities.clear();
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
+                Grass co = new Grass(i, j, Sprite.grass.getFxImage());
+                nen.add(co);
+            }
+        }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src\\uet\\oop\\bomberman\\graphics\\map2.txt"))) {
+            String line = bufferedReader.readLine();
+            int j=0;
+            while (line != null) {
+                int n=0;
+                String[] cutline = new String[15];
+                for (String w : line.split("\\s", 15)) {
+                    cutline[n]=w;
+                    n++;
+                }
+                for(int i=0;i<n;i++){
+                    if(cutline[i].equals("0")){
+                        Entity object = new Wall(i, j, Sprite.wall.getFxImage());
+                        stillObjects.add(object);
+                    } else if(cutline[i].equals("2")||cutline[i].equals("3")){
+                        Brick brick;
+                        brick = new Brick(i,j, Sprite.brick.getFxImage());
+                        bricks.add(brick);
+                    }else if(cutline[i].equals("4")){
+                        Entity object = new Wall(i, j, Sprite.cay.getFxImage());
+                        stillObjects.add(object);
+                    }
+                }
+                j++;
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
+        nen.add(point);
+    }
+    public void createMap3() {
+        bricks.clear();
+        stillObjects.clear();
+        nen.clear();
+        entities.clear();
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
+                Grass co = new Grass(i, j, Sprite.grass.getFxImage());
+                nen.add(co);
+            }
+        }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src\\uet\\oop\\bomberman\\graphics\\map3.txt"))) {
+            String line = bufferedReader.readLine();
+            int j=0;
+            while (line != null) {
+                int n=0;
+                String[] cutline = new String[15];
+                for (String w : line.split("\\s", 15)) {
+                    cutline[n]=w;
+                    n++;
+                }
+                for(int i=0;i<n;i++){
+                    if(cutline[i].equals("0")){
+                        Entity object = new Wall(i, j, Sprite.wall.getFxImage());
+                        stillObjects.add(object);
+                    } else if(cutline[i].equals("2")||cutline[i].equals("3")){
+                        Brick brick;
+                        brick = new Brick(i,j, Sprite.brick.getFxImage());
+                        bricks.add(brick);
+                    }else if(cutline[i].equals("4")){
+                        Entity object = new Wall(i, j, Sprite.cay.getFxImage());
+                        stillObjects.add(object);
+                    }
+                }
+                j++;
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
+        nen.add(point);
+    }
+    public void createMap4() {
+        bricks.clear();
+        stillObjects.clear();
+        nen.clear();
+        entities.clear();
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
+                Grass co = new Grass(i, j, Sprite.grass.getFxImage());
+                nen.add(co);
+            }
+        }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("src\\uet\\oop\\bomberman\\graphics\\map4.txt"))) {
+            String line = bufferedReader.readLine();
+            int j=0;
+            while (line != null) {
+                int n=0;
+                String[] cutline = new String[15];
+                for (String w : line.split("\\s", 15)) {
+                    cutline[n]=w;
+                    n++;
+                }
+                for(int i=0;i<n;i++){
+                    if(cutline[i].equals("0")){
+                        Entity object = new Wall(i, j, Sprite.wall.getFxImage());
+                        stillObjects.add(object);
+                    } else if(cutline[i].equals("2")||cutline[i].equals("3")){
+                        Brick brick;
+                        brick = new Brick(i,j, Sprite.brick.getFxImage());
+                        bricks.add(brick);
+                    }else if(cutline[i].equals("4")){
+                        Entity object = new Wall(i, j, Sprite.cay.getFxImage());
+                        stillObjects.add(object);
+                    }
+                }
+                j++;
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
+        nen.add(point);
     }
     public boolean checkup(){
         for (Entity stillObject : stillObjects) {
@@ -403,17 +593,7 @@ public class BombermanGame extends Application {
         }
     }
 
-    public void createBot(){
-        entities.clear();
-        for (int j = 0; j < HEIGHT; j++) {
-            if (j % 2 == 1 && j > 1) {
 
-                Bot2 object = new Bot2(j-1, j, Sprite.bot_right1.getFxImage());
-                entities.add(object);
-
-            }
-        }
-    }
     public boolean checkwin(){
         return player.get(0).getY() + 16 >= nen.get(nen.size() - 1).getY() && player.get(0).getX() + 16 >= nen.get(nen.size() - 1).getX();
     }
