@@ -21,7 +21,10 @@ public class Sprite {
 	public static Sprite wall = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.wall, 0,0);
 	public static Sprite grass = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.grass, 0,0);
 	public static Sprite cay = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.cay, 0,0);
-	public static Sprite door= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.door,0,0);
+	public static Sprite  door= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.door,0,0);
+
+
+	public static Sprite brick= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.brick,0,0);
 
 	public static Sprite bom=new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.bom,0,0);
 	public static Sprite bom1=new Sprite(DEFAULT_SIZE,1,0,SpriteSheet.bom,1,0);
@@ -41,6 +44,14 @@ public class Sprite {
 	public static Sprite bot_left2= new Sprite(DEFAULT_SIZE, 1, 1, SpriteSheet.bot, 0,0);
 	public static Sprite bot_left3 = new Sprite(DEFAULT_SIZE, 2, 1, SpriteSheet.bot, 0,0);
 	public static Sprite bot_left4 = new Sprite(DEFAULT_SIZE, 3, 1, SpriteSheet.bot, 0,0);
+	public static Sprite bot_down1 = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.bot, 0,0);
+	public static Sprite bot_down2 = new Sprite(DEFAULT_SIZE, 1, 0, SpriteSheet.bot, 0,0);
+	public static Sprite bot_down3 = new Sprite(DEFAULT_SIZE, 2, 0, SpriteSheet.bot, 0,0);
+	public static Sprite bot_down4 = new Sprite(DEFAULT_SIZE, 3, 0, SpriteSheet.bot, 0,0);
+	public static Sprite bot_up1 = new Sprite(DEFAULT_SIZE, 0, 3, SpriteSheet.bot, 0,0);
+	public static Sprite bot_up2 = new Sprite(DEFAULT_SIZE, 1, 3, SpriteSheet.bot, 0,0);
+	public static Sprite bot_up3 = new Sprite(DEFAULT_SIZE, 2, 3, SpriteSheet.bot, 0,0);
+	public static Sprite bot_up4 = new Sprite(DEFAULT_SIZE, 3, 3, SpriteSheet.bot, 0,0);
 
 	public static Sprite player = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.player, 0,0);
 	public static Sprite player_down1 = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.player, 0,0);
