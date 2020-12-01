@@ -82,7 +82,7 @@ public class BombermanGame extends Application {
 
         startgame.setOnAction(e -> {
             switchScene(scene);
-            createMap();
+            createMap1();
         });
 
         root = new Group();
@@ -298,7 +298,7 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
-        createMap ();
+        createMap1 ();
 
         Bomber bomberman = new Bomber(1, 1, Sprite.player.getFxImage());
         player.add(bomberman);
@@ -323,7 +323,7 @@ public class BombermanGame extends Application {
         for(int i=0;i<items3.size();i++){
             if((player.get(0).getY() +32)/64 == items3.get(i).getY() /64 && (player.get(0).getX() + 32)/64 == items3.get(i).getX()/64){
                 bombig=true;
-                items.remove(i);
+                items3.remove(i);
                 i--;
             }
         }
@@ -754,7 +754,9 @@ public class BombermanGame extends Application {
 
     public void update() {
         entities.forEach(Entity::update);
-        boms.forEach(Bom::update);
+        for (int i=0;i<boms.size();i++){
+            boms.get(i).update();
+        }
     }
 
     public void render() {
