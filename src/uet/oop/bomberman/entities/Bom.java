@@ -48,9 +48,21 @@ public class Bom extends Entity{
             BombermanGame.explodes.add(bomleft);
             BombermanGame.explodes.add(bomright);
         } else if(a==0){
-
-            BombermanGame.explodes.subList(0, 5).clear();
-            BombermanGame.boms.remove(0);
+            if(BombermanGame.boms.size()==1) {
+                BombermanGame.explodes.clear();
+                BombermanGame.boms.clear();
+            } else {
+                BombermanGame.boms.remove(0);
+                if(BombermanGame.timedown2<3000){
+                    for(int i=0;i<8;i++) {
+                        BombermanGame.explodes.remove(0);
+                    }
+                }else {
+                    for(int i=0;i<4;i++) {
+                        BombermanGame.explodes.remove(0);
+                    }
+                }
+            }
         }
     }
 }
