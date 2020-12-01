@@ -37,7 +37,7 @@ public class BombermanGame extends Application {
     public static List<Bom> boms = new ArrayList<>();
     boolean datbom, goNorth, goSouth, goEast, goWest;
     public int man =0;
-
+    boolean speedup=false;
 
 
     public static void main(String[] args) {
@@ -231,6 +231,12 @@ public class BombermanGame extends Application {
                 else if (goSouth&&checkdown()) player.get(0).movedown();
                 else if (goEast&&checkright()) player.get(0).moveright();
                 else if (goWest&&checkleft())  player.get(0).moveleft();
+                if(speedup){
+                    if (goNorth&&checkup()) player.get(0).moveup();
+                    else if (goSouth&&checkdown()) player.get(0).movedown();
+                    else if (goEast&&checkright()) player.get(0).moveright();
+                    else if (goWest&&checkleft())  player.get(0).moveleft();
+                }
                 if(datbom) setDatbom();
                 if(explodes.size()!=0) {
                     checkbrick();
@@ -306,7 +312,10 @@ public class BombermanGame extends Application {
             }
         }
         Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
+
         nen.add(point);
+       Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclosed.getFxImage());
+       bricks.add(doorclose);
 
         for (int j = 0; j < HEIGHT; j++) {
             if (j % 2 == 1 && j > 1) {
@@ -363,6 +372,8 @@ public class BombermanGame extends Application {
         }
         Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
         nen.add(point);
+        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclosed.getFxImage());
+        bricks.add(doorclose);
     }
     public void createMap2() {
         bricks.clear();
@@ -406,6 +417,8 @@ public class BombermanGame extends Application {
         }
         Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
         nen.add(point);
+        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclosed.getFxImage());
+        bricks.add(doorclose);
     }
     public void createMap3() {
         bricks.clear();
@@ -449,6 +462,8 @@ public class BombermanGame extends Application {
         }
         Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
         nen.add(point);
+        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclosed.getFxImage());
+        bricks.add(doorclose);
     }
     public void createMap4() {
         bricks.clear();
@@ -492,6 +507,8 @@ public class BombermanGame extends Application {
         }
         Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
         nen.add(point);
+        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclosed.getFxImage());
+        bricks.add(doorclose);
     }
     public boolean checkup(){
         for (Entity stillObject : stillObjects) {
@@ -548,15 +565,22 @@ public class BombermanGame extends Application {
                 return false;
         }
         for (Entity stillObject : boms) {
-            if (stillObject.getY() / 64 == player.get(0).getY() / 64 && stillObject.getX() / 64 - 1 == player.get(0).getX() / 64)
+            if (stillObject.getY() / 64 == player.get(0).getY() / 64 && stillObject.getX() / 64 - 1 == (player.get(0).getX() +32) / 64)
                 return false;
         }
         return true;
     }
     public boolean checkdie(){
-        for (Bot2 entity : entities) {
-            if ((entity.getX() + 64 >= player.get(0).getX() && entity.getX() - 32 <= player.get(0).getX()) && (entity.getY() - 48 <= player.get(0).getY() && entity.getY() + 48 >= player.get(0).getY())) {
-                return true;
+        for (int i=0;i<entities.size();i++) {
+            if(entities.get(i).getY()/64==(player.get(0).getY()+16)/64){
+                if(entities.get(i).getX()+48>player.get(0).getX()&&entities.get(i).getX()-48<player.get(0).getX()){
+                    return true;
+                }
+            }
+            if(entities.get(i).getX()/64==(player.get(0).getX()+16)/64){
+                if(entities.get(i).getY()+48>player.get(0).getY()&&entities.get(i).getY()-48<player.get(0).getY()){
+                    return true;
+                }
             }
         }
         for (Explode explode : explodes) {
@@ -611,6 +635,7 @@ public class BombermanGame extends Application {
 
 
     public boolean checkwin(){
+        if(entities.size()==0) return true;
         return player.get(0).getY() + 16 >= nen.get(nen.size() - 1).getY() && player.get(0).getX() + 16 >= nen.get(nen.size() - 1).getX();
     }
 
@@ -626,9 +651,10 @@ public class BombermanGame extends Application {
         nen.forEach(g->g.render(gc));
         boms.forEach(g->g.render(gc));
         entities.forEach(g->g.render(gc));
+        bricks.forEach(g->g.render(gc));
         explodes.forEach(g->g.render(gc));
         stillObjects.forEach(g -> g.render(gc));
-        bricks.forEach(g->g.render(gc));
+
         player.forEach(g->g.render(gc));
     }
     public void switchScene(Scene scene) {

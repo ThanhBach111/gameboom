@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
-
+    public int a=2;
     public Bomber(int x, int y, Image img) {
         super( x, y, img);
     }
@@ -19,10 +19,10 @@ public class Bomber extends Entity {
     public void moveup(){
 
         if(x%64<=8) {
-            y--;
+            y=y-a;
             x = x / 64 * 64;
         }else if(x%64>=56) {
-            y--;
+            y=y-a;
             x = (x / 64 +1 )* 64;
         }
         if (y % 16 == 0) {
@@ -38,10 +38,11 @@ public class Bomber extends Entity {
     public void movedown(){
 
         if(x%64<=8) {
-            y++;
+            y=y+a;
             x = x / 64 * 64;
         }else if(x%64>=56) {
-            y++;
+            y=y+a;
+
             x = (x / 64 +1 )* 64;
         }
         if (y % 16 == 0) {
@@ -57,10 +58,11 @@ public class Bomber extends Entity {
     public void moveleft(){
 
         if(y%64<=8) {
-            x--;
+            x=x-a;
             y= y / 64 * 64;
         }else if(x%64>=56) {
-            x--;
+            x=x-a;
+
             y = (y / 64 +1 )* 64;
         }
         if (x % 16 == 0) {
@@ -75,10 +77,11 @@ public class Bomber extends Entity {
     }
     public void moveright(){
         if(y%64<=8) {
-            x++;
+            x=x+a;
             y= y / 64 * 64;
         }else if(x%64>=56) {
-            x++;
+            x=x+a;
+
             y = (y / 64 +1 )* 64;
         }
         if (x % 16 == 0) {

@@ -22,6 +22,8 @@ public class Sprite {
 	public static Sprite grass = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.grass, 0,0);
 	public static Sprite cay = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.cay, 0,0);
 	public static Sprite  door= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.door,0,0);
+	public static Sprite  doorclosed= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.doorclosed,0,0);
+	public static Sprite  speedup= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.speedup,0,0);
 
 
 	public static Sprite brick= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.brick,0,0);

@@ -32,7 +32,9 @@ public class SpriteSheet {
 	public static SpriteSheet bomleft= new SpriteSheet("/textures/bomleft.png",32);
 	public static SpriteSheet bomright= new SpriteSheet("/textures/bomright.png",32);
 	public static SpriteSheet door = new SpriteSheet("/textures/door.png",32);
+	public static SpriteSheet doorclosed = new SpriteSheet("/textures/doorclosed.png",32);
 	public static SpriteSheet brick = new SpriteSheet("/textures/dat.png",32);
+	public static SpriteSheet speedup = new SpriteSheet("/textures/speedup.png",32);
 
 
 	public SpriteSheet(String path, int size) {
