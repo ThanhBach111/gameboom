@@ -298,7 +298,7 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
-        createMap();
+        createMap ();
 
         Bomber bomberman = new Bomber(1, 1, Sprite.player.getFxImage());
         player.add(bomberman);
