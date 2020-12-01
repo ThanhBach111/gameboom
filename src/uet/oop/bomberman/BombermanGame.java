@@ -249,9 +249,10 @@ public class BombermanGame extends Application {
                 }
                 if(datbom&&boms.size()==0) {
                     setDatbom();
-                } else if(bomplus&&datbom){
+                }
+                if(bomplus&&boms.size()==1&&datbom){
                     setDatbom();
-                    bomplus=false;
+                    if(boms.size()==2) bomplus=false;
                 }
                 if(bombig){
                     timedown2--;
@@ -742,10 +743,15 @@ public class BombermanGame extends Application {
 
     }
     public void setDatbom() {
-
+        if(boms.size()==0) {
             Bom bom = new Bom((player.get(0).getX() + 32) / 64, (player.get(0).getY() + 32) / 64, Sprite.bom.getFxImage());
             boms.add(bom);
-
+        } else {
+            if(!((player.get(0).getX() + 32) / 64==boms.get(0).getX()/64&&(player.get(0).getY() + 32) / 64==boms.get(0).getY()/64)){
+                Bom bom = new Bom((player.get(0).getX() + 32) / 64, (player.get(0).getY() + 32) / 64, Sprite.bom.getFxImage());
+                boms.add(bom);
+            }
+        }
     }
     public boolean checkwin(){
         if(entities.size()==0) return true;
