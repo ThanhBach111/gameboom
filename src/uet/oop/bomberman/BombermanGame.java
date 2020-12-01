@@ -754,9 +754,7 @@ public class BombermanGame extends Application {
 
     public void update() {
         entities.forEach(Entity::update);
-        if(boms.size()!=0) {
-              boms.get(0).update();
-        }
+        boms.forEach(Bom::update);
     }
 
     public void render() {
@@ -765,6 +763,8 @@ public class BombermanGame extends Application {
         boms.forEach(g->g.render(gc));
         entities.forEach(g->g.render(gc));
         items.forEach(g->g.render(gc));
+        items2.forEach(g->g.render(gc));
+        items3.forEach(g->g.render(gc));
         bricks.forEach(g->g.render(gc));
         explodes.forEach(g->g.render(gc));
         stillObjects.forEach(g -> g.render(gc));
