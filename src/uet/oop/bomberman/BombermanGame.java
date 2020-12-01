@@ -35,9 +35,14 @@ public class BombermanGame extends Application {
     public static List<Grass> nen = new ArrayList<>();
     public static List<Brick> bricks = new ArrayList<>();
     public static List<Bom> boms = new ArrayList<>();
+    public static List<Item> items = new ArrayList<>();
+    public static List<Item> items2 = new ArrayList<>();
+    public static List<Item> items3 = new ArrayList<>();
     boolean datbom, goNorth, goSouth, goEast, goWest;
     public int man =0;
-    boolean speedup=false;
+    public static boolean speedup=false, bomplus=false, bombig=false;
+    public int timedown = 1500;
+    public static int timedown2 = 3000;
 
 
     public static void main(String[] args) {
@@ -236,8 +241,22 @@ public class BombermanGame extends Application {
                     else if (goSouth&&checkdown()) player.get(0).movedown();
                     else if (goEast&&checkright()) player.get(0).moveright();
                     else if (goWest&&checkleft())  player.get(0).moveleft();
+                    timedown--;
+                    if(timedown==0){
+                        speedup=false;
+                        timedown=1000;
+                    }
                 }
-                if(datbom) setDatbom();
+                if(datbom&&boms.size()==0) {
+                    setDatbom();
+                } else if(bomplus&&datbom){
+                    setDatbom();
+                    bomplus=false;
+                }
+                if(bombig){
+                    timedown2--;
+                    if(timedown2==0) bombig=false;
+                }
                 if(explodes.size()!=0) {
                     checkbrick();
                     botcheckdie();
@@ -271,6 +290,7 @@ public class BombermanGame extends Application {
                     }
 
                 }
+                checkitem();
                 render();
                 update();
 
@@ -280,10 +300,33 @@ public class BombermanGame extends Application {
 
         createMap();
 
-
         Bomber bomberman = new Bomber(1, 1, Sprite.player.getFxImage());
         player.add(bomberman);
         return scene;
+    }
+
+    private void checkitem() {
+        for(int i=0;i<items.size();i++){
+            if((player.get(0).getY() +32)/64 == items.get(i).getY() /64 && (player.get(0).getX() + 32)/64 == items.get(i).getX()/64){
+                speedup=true;
+                items.remove(i);
+                i--;
+            }
+        }
+        for(int i=0;i<items2.size();i++){
+            if((player.get(0).getY() +32)/64 == items2.get(i).getY() /64 && (player.get(0).getX() + 32)/64 == items2.get(i).getX()/64){
+                bomplus=true;
+                items2.remove(i);
+                i--;
+            }
+        }
+        for(int i=0;i<items3.size();i++){
+            if((player.get(0).getY() +32)/64 == items3.get(i).getY() /64 && (player.get(0).getX() + 32)/64 == items3.get(i).getX()/64){
+                bombig=true;
+                items.remove(i);
+                i--;
+            }
+        }
     }
 
 
@@ -309,13 +352,14 @@ public class BombermanGame extends Application {
                     brick = new Brick(i,j, Sprite.brick.getFxImage());
                     bricks.add(brick);
                 }
+
             }
         }
         Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
 
         nen.add(point);
-       Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclosed.getFxImage());
-       bricks.add(doorclose);
+        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclose.getFxImage());
+        bricks.add(doorclose);
 
         for (int j = 0; j < HEIGHT; j++) {
             if (j % 2 == 1 && j > 1) {
@@ -334,7 +378,7 @@ public class BombermanGame extends Application {
         entities.clear();
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
-                Grass co = new Grass(i, j, Sprite.grass.getFxImage());
+                Grass co = new Grass(i, j, Sprite.grass_land.getFxImage());
                 nen.add(co);
             }
         }
@@ -350,18 +394,33 @@ public class BombermanGame extends Application {
                 }
                 for(int i=0;i<n;i++){
                     if(cutline[i].equals("0")){
-                        Entity object = new Wall(i, j, Sprite.wall.getFxImage());
+                        Entity object = new Wall(i, j, Sprite.wall_land.getFxImage());
                         stillObjects.add(object);
                     } else if(cutline[i].equals("2")||cutline[i].equals("3")){
                         Brick brick;
-                        brick = new Brick(i,j, Sprite.brick.getFxImage());
+                        brick = new Brick(i,j, Sprite.brick_land.getFxImage());
                         bricks.add(brick);
                     } else if(cutline[i].equals("4")){
-                        Entity object = new Wall(i, j, Sprite.cay.getFxImage());
+                        Entity object = new Wall(i, j, Sprite.cay_land.getFxImage());
                         stillObjects.add(object);
                     }else if(cutline[i].equals("5")){
                         Bot2 object = new Bot2(i, j, Sprite.bot.getFxImage());
                         entities.add(object);
+                    }else if(cutline[i].equals("6")){
+                        Brick object= new Brick(i, j, Sprite.brick_land.getFxImage());
+                        bricks.add(object);
+                        Item item=new Item(i,j,Sprite.speedup.getFxImage());
+                        items.add(item);
+                    }else if(cutline[i].equals("7")){
+                        Brick object= new Brick(i, j, Sprite.brick_land.getFxImage());
+                        bricks.add(object);
+                        Item item=new Item(i,j,Sprite.bomplus.getFxImage());
+                        items2.add(item);
+                    }else if(cutline[i].equals("8")){
+                        Brick object= new Brick(i, j, Sprite.brick_land.getFxImage());
+                        bricks.add(object);
+                        Item item=new Item(i,j,Sprite.bombig.getFxImage());
+                        items3.add(item);
                     }
                 }
                 j++;
@@ -372,9 +431,10 @@ public class BombermanGame extends Application {
         }
         Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
         nen.add(point);
-        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclosed.getFxImage());
+        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclose.getFxImage());
         bricks.add(doorclose);
     }
+
     public void createMap2() {
         bricks.clear();
         stillObjects.clear();
@@ -382,7 +442,7 @@ public class BombermanGame extends Application {
         entities.clear();
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
-                Grass co = new Grass(i, j, Sprite.grass.getFxImage());
+                Grass co = new Grass(i, j, Sprite.grass_water.getFxImage());
                 nen.add(co);
             }
         }
@@ -398,15 +458,33 @@ public class BombermanGame extends Application {
                 }
                 for(int i=0;i<n;i++){
                     if(cutline[i].equals("0")){
-                        Entity object = new Wall(i, j, Sprite.wall.getFxImage());
+                        Entity object = new Wall(i, j, Sprite.wall_water.getFxImage());
                         stillObjects.add(object);
                     } else if(cutline[i].equals("2")||cutline[i].equals("3")){
                         Brick brick;
-                        brick = new Brick(i,j, Sprite.brick.getFxImage());
+                        brick = new Brick(i,j, Sprite.brick_water.getFxImage());
                         bricks.add(brick);
                     }else if(cutline[i].equals("4")){
-                        Entity object = new Wall(i, j, Sprite.cay.getFxImage());
+                        Entity object = new Wall(i, j, Sprite.cay_water.getFxImage());
                         stillObjects.add(object);
+                    }else if(cutline[i].equals("5")){
+                        Bot2 object = new Bot2(i, j, Sprite.bot.getFxImage());
+                        entities.add(object);
+                    }else if(cutline[i].equals("6")){
+                        Brick object= new Brick(i, j, Sprite.brick_water.getFxImage());
+                        bricks.add(object);
+                        Item item=new Item(i,j,Sprite.speedup.getFxImage());
+                        items.add(item);
+                    }else if(cutline[i].equals("7")){
+                        Brick object= new Brick(i, j, Sprite.brick_water.getFxImage());
+                        bricks.add(object);
+                        Item item=new Item(i,j,Sprite.bomplus.getFxImage());
+                        items.add(item);
+                    }else if(cutline[i].equals("8")){
+                        Brick object= new Brick(i, j, Sprite.brick_water.getFxImage());
+                        bricks.add(object);
+                        Item item=new Item(i,j,Sprite.bombig.getFxImage());
+                        items.add(item);
                     }
                 }
                 j++;
@@ -417,7 +495,7 @@ public class BombermanGame extends Application {
         }
         Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
         nen.add(point);
-        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclosed.getFxImage());
+        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclose.getFxImage());
         bricks.add(doorclose);
     }
     public void createMap3() {
@@ -427,7 +505,7 @@ public class BombermanGame extends Application {
         entities.clear();
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
-                Grass co = new Grass(i, j, Sprite.grass.getFxImage());
+                Grass co = new Grass(i, j, Sprite.grass_xmas.getFxImage());
                 nen.add(co);
             }
         }
@@ -443,15 +521,33 @@ public class BombermanGame extends Application {
                 }
                 for(int i=0;i<n;i++){
                     if(cutline[i].equals("0")){
-                        Entity object = new Wall(i, j, Sprite.wall.getFxImage());
+                        Entity object = new Wall(i, j, Sprite.wall_xmas.getFxImage());
                         stillObjects.add(object);
                     } else if(cutline[i].equals("2")||cutline[i].equals("3")){
                         Brick brick;
-                        brick = new Brick(i,j, Sprite.brick.getFxImage());
+                        brick = new Brick(i,j, Sprite.brick_xmas.getFxImage());
                         bricks.add(brick);
                     }else if(cutline[i].equals("4")){
-                        Entity object = new Wall(i, j, Sprite.cay.getFxImage());
+                        Entity object = new Wall(i, j, Sprite.cay_xmas.getFxImage());
                         stillObjects.add(object);
+                    }else if(cutline[i].equals("5")){
+                        Bot2 object = new Bot2(i, j, Sprite.bot.getFxImage());
+                        entities.add(object);
+                    }else if(cutline[i].equals("6")){
+                        Brick object= new Brick(i, j, Sprite.brick_xmas.getFxImage());
+                        bricks.add(object);
+                        Item item=new Item(i,j,Sprite.speedup.getFxImage());
+                        items.add(item);
+                    }else if(cutline[i].equals("7")){
+                        Brick object= new Brick(i, j, Sprite.brick_xmas.getFxImage());
+                        bricks.add(object);
+                        Item item=new Item(i,j,Sprite.bomplus.getFxImage());
+                        items.add(item);
+                    }else if(cutline[i].equals("8")){
+                        Brick object= new Brick(i, j, Sprite.brick_xmas.getFxImage());
+                        bricks.add(object);
+                        Item item=new Item(i,j,Sprite.bombig.getFxImage());
+                        items.add(item);
                     }
                 }
                 j++;
@@ -462,7 +558,7 @@ public class BombermanGame extends Application {
         }
         Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
         nen.add(point);
-        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclosed.getFxImage());
+        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclose.getFxImage());
         bricks.add(doorclose);
     }
     public void createMap4() {
@@ -472,7 +568,7 @@ public class BombermanGame extends Application {
         entities.clear();
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
-                Grass co = new Grass(i, j, Sprite.grass.getFxImage());
+                Grass co = new Grass(i, j, Sprite.grass_town.getFxImage());
                 nen.add(co);
             }
         }
@@ -488,15 +584,33 @@ public class BombermanGame extends Application {
                 }
                 for(int i=0;i<n;i++){
                     if(cutline[i].equals("0")){
-                        Entity object = new Wall(i, j, Sprite.wall.getFxImage());
+                        Entity object = new Wall(i, j, Sprite.wall_town.getFxImage());
                         stillObjects.add(object);
                     } else if(cutline[i].equals("2")||cutline[i].equals("3")){
                         Brick brick;
-                        brick = new Brick(i,j, Sprite.brick.getFxImage());
+                        brick = new Brick(i,j, Sprite.brick_town.getFxImage());
                         bricks.add(brick);
                     }else if(cutline[i].equals("4")){
-                        Entity object = new Wall(i, j, Sprite.cay.getFxImage());
+                        Entity object = new Wall(i, j, Sprite.cay_town.getFxImage());
                         stillObjects.add(object);
+                    }else if(cutline[i].equals("5")){
+                        Bot2 object = new Bot2(i, j, Sprite.bot.getFxImage());
+                        entities.add(object);
+                    }else if(cutline[i].equals("6")){
+                        Brick object= new Brick(i, j, Sprite.brick_town.getFxImage());
+                        bricks.add(object);
+                        Item item=new Item(i,j,Sprite.speedup.getFxImage());
+                        items.add(item);
+                    }else if(cutline[i].equals("7")){
+                        Brick object= new Brick(i, j, Sprite.brick_town.getFxImage());
+                        bricks.add(object);
+                        Item item=new Item(i,j,Sprite.bomplus.getFxImage());
+                        items.add(item);
+                    }else if(cutline[i].equals("8")){
+                        Brick object= new Brick(i, j, Sprite.brick_town.getFxImage());
+                        bricks.add(object);
+                        Item item=new Item(i,j,Sprite.bombig.getFxImage());
+                        items.add(item);
                     }
                 }
                 j++;
@@ -507,35 +621,36 @@ public class BombermanGame extends Application {
         }
         Grass point = new Grass(WIDTH-2,HEIGHT-2,Sprite.door.getFxImage());
         nen.add(point);
-        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclosed.getFxImage());
+        Brick doorclose = new Brick(WIDTH-2,HEIGHT-2,Sprite.doorclose.getFxImage());
         bricks.add(doorclose);
     }
+
     public boolean checkup(){
         for (Entity stillObject : stillObjects) {
-            if (stillObject.getY() / 64 == (player.get(0).getY() - 1) / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 8) / 64)
+            if (stillObject.getY() / 64 == (player.get(0).getY() - 1) / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 12) / 64)
                 return false;
         }
         for (Entity stillObject : bricks) {
-            if (stillObject.getY() / 64 == (player.get(0).getY() - 1) / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 8) / 64)
+            if (stillObject.getY() / 64 == (player.get(0).getY() - 1) / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 12) / 64)
                 return false;
         }
         for (Entity stillObject : boms) {
-            if (stillObject.getY() / 64 == (player.get(0).getY() - 1) / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 8) / 64)
+            if (stillObject.getY() / 64 == (player.get(0).getY() - 1) / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 12) / 64)
                 return false;
         }
         return true;
     }
     public boolean checkdown(){
         for (Entity stillObject : stillObjects) {
-            if (stillObject.getY() / 64 - 1 == player.get(0).getY() / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 8) / 64)
+            if (stillObject.getY() / 64 - 1 == player.get(0).getY() / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 12) / 64)
                 return false;
         }
         for (Entity stillObject : bricks) {
-            if (stillObject.getY() / 64 - 1 == player.get(0).getY() / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 8) / 64)
+            if (stillObject.getY() / 64 - 1 == player.get(0).getY() / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 12) / 64)
                 return false;
         }
         for (Entity stillObject : boms) {
-            if (stillObject.getY() / 64 - 1 == player.get(0).getY() / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 8) / 64)
+            if (stillObject.getY() / 64 - 1 == player.get(0).getY() / 64 && stillObject.getX() / 64 == (player.get(0).getX() + 12) / 64)
                 return false;
         }
         return true;
@@ -627,13 +742,11 @@ public class BombermanGame extends Application {
 
     }
     public void setDatbom() {
-        if(boms.size()==0) {
+
             Bom bom = new Bom((player.get(0).getX() + 32) / 64, (player.get(0).getY() + 32) / 64, Sprite.bom.getFxImage());
             boms.add(bom);
-        }
+
     }
-
-
     public boolean checkwin(){
         if(entities.size()==0) return true;
         return player.get(0).getY() + 16 >= nen.get(nen.size() - 1).getY() && player.get(0).getX() + 16 >= nen.get(nen.size() - 1).getX();
@@ -651,6 +764,7 @@ public class BombermanGame extends Application {
         nen.forEach(g->g.render(gc));
         boms.forEach(g->g.render(gc));
         entities.forEach(g->g.render(gc));
+        items.forEach(g->g.render(gc));
         bricks.forEach(g->g.render(gc));
         explodes.forEach(g->g.render(gc));
         stillObjects.forEach(g -> g.render(gc));

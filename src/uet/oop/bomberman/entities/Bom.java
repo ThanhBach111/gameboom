@@ -5,7 +5,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bom extends Entity{
-    int a=800;
+    int a=600;
 
     public Bom(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
@@ -14,7 +14,7 @@ public class Bom extends Entity{
     @Override
     public void update() {
         a = a - 2;
-        if (a > 100) {
+        if (a > 150) {
             if (a % 60 == 0) {
                 img = Sprite.bom.getFxImage();
             } else if (a % 60 == 45) {
@@ -24,13 +24,24 @@ public class Bom extends Entity{
             } else if(a%60==15){
                 img = Sprite.bom1.getFxImage();
             }
-        } else if (a == 100) {
+        } else if (a == 150) {
 
             Explode bombom = new Explode(getX() / 64, getY() / 64, Sprite.bombom.getFxImage());
             Explode bomup = new Explode(getX() / 64, getY() / 64 - 1, Sprite.bomup.getFxImage());
             Explode bomdown = new Explode(getX() / 64, getY() / 64 + 1, Sprite.bomdown.getFxImage());
             Explode bomleft = new Explode(getX() / 64 - 1, getY() / 64, Sprite.bomleft.getFxImage());
             Explode bomright = new Explode(getX() / 64 + 1, getY() / 64, Sprite.bomright.getFxImage());
+            if(BombermanGame.bombig){
+
+                Explode bomup1 = new Explode(getX() / 64-1, getY() / 64 - 1, Sprite.bomup.getFxImage());
+                Explode bomup2 = new Explode(getX() / 64+1, getY() / 64 - 1, Sprite.bomup.getFxImage());
+                Explode bomdown1 = new Explode(getX() / 64-1, getY() / 64 + 1, Sprite.bomdown.getFxImage());
+                Explode bomdown2 = new Explode(getX() / 64+1, getY() / 64 + 1, Sprite.bomdown.getFxImage());
+                BombermanGame.explodes.add(bomup1);
+                BombermanGame.explodes.add(bomdown1);
+                BombermanGame.explodes.add(bomup2);
+                BombermanGame.explodes.add(bomdown2);
+            }
             BombermanGame.explodes.add(bombom);
             BombermanGame.explodes.add(bomup);
             BombermanGame.explodes.add(bomdown);

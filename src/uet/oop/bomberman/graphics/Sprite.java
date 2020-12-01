@@ -2,6 +2,8 @@ package uet.oop.bomberman.graphics;
 
 import javafx.scene.image.*;
 
+import javax.swing.*;
+
 /**
  * Lưu trữ thông tin các pixel của 1 sprite (hình ảnh game)
  */
@@ -21,12 +23,33 @@ public class Sprite {
 	public static Sprite wall = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.wall, 0,0);
 	public static Sprite grass = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.grass, 0,0);
 	public static Sprite cay = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.cay, 0,0);
-	public static Sprite  door= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.door,0,0);
-	public static Sprite  doorclosed= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.doorclosed,0,0);
-	public static Sprite  speedup= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.speedup,0,0);
+	public static Sprite wall_water = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.wall_water, 0,0);
+	public static Sprite grass_water = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.grass_water, 0,0);
+	public static Sprite cay_water = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.cay_water, 0,0);
+	public static Sprite wall_xmas = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.wall_xmas, 0,0);
+	public static Sprite grass_xmas = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.grass_xmas, 0,0);
+	public static Sprite cay_xmas = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.cay_xmas, 0,0);
+	public static Sprite wall_town = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.wall_town, 0,0);
+	public static Sprite grass_town = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.grass_town, 0,0);
+	public static Sprite cay_town = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.cay_town, 0,0);
+	public static Sprite wall_land = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.wall_land, 0,0);
+	public static Sprite grass_land = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.grass_land, 0,0);
+	public static Sprite cay_land = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.cay_land, 0,0);
+	public static Sprite speedup = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.speedup, 0,0);
+	public static Sprite bomplus = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.bomplus, 0,0);
+	public static Sprite bombig = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.bombig, 0,0);
 
 
-	public static Sprite brick= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.brick,0,0);
+
+	public static Sprite door= new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.door,0,0);
+	public static Sprite doorclose = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.doorclose, 0,0);
+
+
+	public static Sprite brick = new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.brick,0,0);
+	public static Sprite brick_water = new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.brick_water,0,0);
+	public static Sprite brick_xmas = new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.brick_xmas,0,0);
+	public static Sprite brick_town = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.brick_town, 0,0);
+	public static Sprite brick_land = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.brick_land, 0,0);
 
 	public static Sprite bom=new Sprite(DEFAULT_SIZE,0,0,SpriteSheet.bom,0,0);
 	public static Sprite bom1=new Sprite(DEFAULT_SIZE,1,0,SpriteSheet.bom,1,0);
@@ -54,6 +77,8 @@ public class Sprite {
 	public static Sprite bot_up2 = new Sprite(DEFAULT_SIZE, 1, 3, SpriteSheet.bot, 0,0);
 	public static Sprite bot_up3 = new Sprite(DEFAULT_SIZE, 2, 3, SpriteSheet.bot, 0,0);
 	public static Sprite bot_up4 = new Sprite(DEFAULT_SIZE, 3, 3, SpriteSheet.bot, 0,0);
+
+
 
 	public static Sprite player = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.player, 0,0);
 	public static Sprite player_down1 = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.player, 0,0);

@@ -27,6 +27,9 @@ public abstract class Entity {
     public int getY() {
         return y;
     }
+    public Image getImg() {
+        return img;
+    }
 
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);

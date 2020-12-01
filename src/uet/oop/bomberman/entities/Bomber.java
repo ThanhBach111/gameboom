@@ -18,10 +18,10 @@ public class Bomber extends Entity {
 
     public void moveup(){
 
-        if(x%64<=8) {
+        if(x%64<=12) {
             y=y-a;
             x = x / 64 * 64;
-        }else if(x%64>=56) {
+        }else if(x%64>=52) {
             y=y-a;
             x = (x / 64 +1 )* 64;
         }
@@ -37,10 +37,10 @@ public class Bomber extends Entity {
     }
     public void movedown(){
 
-        if(x%64<=8) {
+        if(x%64<=12) {
             y=y+a;
             x = x / 64 * 64;
-        }else if(x%64>=56) {
+        }else if(x%64>=52) {
             y=y+a;
 
             x = (x / 64 +1 )* 64;
@@ -57,10 +57,10 @@ public class Bomber extends Entity {
     }
     public void moveleft(){
 
-        if(y%64<=8) {
+        if(y%64<12) {
             x=x-a;
             y= y / 64 * 64;
-        }else if(x%64>=56) {
+        }else if(x%64>=52) {
             x=x-a;
 
             y = (y / 64 +1 )* 64;
@@ -76,10 +76,10 @@ public class Bomber extends Entity {
         }
     }
     public void moveright(){
-        if(y%64<=8) {
+        if(y%64<=12) {
             x=x+a;
             y= y / 64 * 64;
-        }else if(x%64>=56) {
+        }else if(x%64>=52) {
             x=x+a;
 
             y = (y / 64 +1 )* 64;
