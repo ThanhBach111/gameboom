@@ -27,7 +27,7 @@ public class BombermanGame extends Application {
 
     Stage stage;
     Group root;
-    Scene scene, scene1,scene2,scene3;
+    Scene scene, scene1,scene2,scene3,scenehelp;
 
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
@@ -66,6 +66,7 @@ public class BombermanGame extends Application {
         scene1 = createSceneGui();
         scene2=createSceneWin();
         scene3=createSceneDie();
+        scenehelp = sceneInstruc();
         stage.setScene(scene1);
         stage.show();
     }
@@ -90,6 +91,16 @@ public class BombermanGame extends Application {
         startgame.setLayoutY(350);
         startgame.setWrapText(true);
 
+        FileInputStream inputStream1 = new FileInputStream("res/textures/Help.png");
+        Image image2 = new Image(inputStream1);
+        ImageView imageView2 = new ImageView(image2);
+
+        Button help = new Button("", imageView2);
+        help.setMaxSize(100, 50);
+        help.setLayoutX(400);
+        help.setLayoutY(450);
+        help.setWrapText(true);
+
         startgame.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
@@ -104,21 +115,86 @@ public class BombermanGame extends Application {
             }
         });
 
+        help.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                help.setEffect(motionBlur);
+            }
+        });
+
+        help.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                help.setEffect(null);
+            }
+        });
+
+
         startgame.setOnAction(e -> {
             switchScene(scene);
             createMap();
+        });
+
+        help.setOnAction(e -> {
+            switchScene(scenehelp);
         });
 
         root = new Group();
 
         root.getChildren().add(imageView);
         root.getChildren().add(startgame);
+        root.getChildren().add(help);
 
         scene1 = new Scene(root, 1000 ,850);
         stage.setScene(scene1);
         stage.show();
 
         return scene1;
+    }
+
+
+    private Scene sceneInstruc() throws FileNotFoundException {
+
+        FileInputStream input3 = new FileInputStream("res/textures/helpicon.png");
+        Image image3 = new Image(input3);
+        ImageView imageView3 = new ImageView(image3);
+
+        FileInputStream ips = new FileInputStream("res/textures/arrow.png");
+        Image ima = new Image(ips);
+        ImageView ima2 = new ImageView(ima);
+
+        Button returngui = new Button("", ima2);
+        returngui.setMaxSize(100, 50);
+        returngui.setLayoutX(0);
+        returngui.setLayoutY(700);
+        returngui.setWrapText(true);
+
+        returngui.setOnAction(e -> {
+            switchScene(scene1);
+        });
+
+        returngui.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                returngui.setEffect(motionBlur);
+            }
+        });
+
+        returngui.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                returngui.setEffect(null);
+            }
+        });
+
+        root = new Group();
+        root.getChildren().add(imageView3);
+        root.getChildren().add(returngui);
+        scenehelp = new Scene(root, 1000, 850);
+        stage.setScene(scenehelp);
+        stage.show();
+        return scenehelp;
+
     }
     private Scene createSceneWin() throws FileNotFoundException {
         stage.setTitle("Game Boom");
