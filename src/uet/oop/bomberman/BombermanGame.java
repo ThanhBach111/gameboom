@@ -82,7 +82,7 @@ public class BombermanGame extends Application {
 
         startgame.setOnAction(e -> {
             switchScene(scene);
-            createMap1();
+            createMap();
         });
 
         root = new Group();
@@ -299,7 +299,7 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
-        createMap1 ();
+        createMap();
 
         Bomber bomberman = new Bomber(1, 1, Sprite.player.getFxImage());
         player.add(bomberman);
@@ -681,7 +681,7 @@ public class BombermanGame extends Application {
                 return false;
         }
         for (Entity stillObject : boms) {
-            if (stillObject.getY() / 64 == player.get(0).getY() / 64 && stillObject.getX() / 64 - 1 == (player.get(0).getX() +32) / 64)
+            if (stillObject.getY() / 64 == player.get(0).getY() / 64 && stillObject.getX() / 64 - 1 == (player.get(0).getX() ) / 64)
                 return false;
         }
         return true;
@@ -715,15 +715,15 @@ public class BombermanGame extends Application {
     }
     public void botcheckdie(){
         for(int j=0;j<entities.size();j++){
-            for (Explode explode : explodes) {
-                if (explode.getX() == entities.get(j).getX()) {
-                    if (explode.getY() / 64 == (entities.get(j).getY() + 32) / 64 ) {
+            for (int i=0;i<explodes.size();i++) {
+                if (explodes.get(i).getX() == entities.get(j).getX()) {
+                    if (explodes.get(i).getY() / 64 == (entities.get(j).getY() + 32) / 64 ) {
                         entities.remove(j);
                         j--;
                     }
                 }
-                if (explode.getY() == entities.get(j).getY()) {
-                    if (explode.getX() / 64 == (entities.get(j).getX() + 32) / 64 ) {
+                if (explodes.get(i).getY() == entities.get(j).getY()) {
+                    if (explodes.get(i).getX() / 64 == (entities.get(j).getX() + 32) / 64 ) {
                         entities.remove(j);
                         j--;
                     }
@@ -734,8 +734,8 @@ public class BombermanGame extends Application {
     public void checkbrick(){
 
             for (int i = 0; i < bricks.size(); i++) {
-                for (Explode explode : explodes)
-                    if(bricks.get(i).getX() == explode.getX() && bricks.get(i).getY() == explode.getY()) {
+                for (int j=0;j<explodes.size();j++)
+                    if(bricks.get(i).getX() == explodes.get(j).getX() && bricks.get(i).getY() == explodes.get(j).getY()) {
                         bricks.remove(i);
                         i--;
                     }

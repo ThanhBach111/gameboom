@@ -54,11 +54,11 @@ public class Bom extends Entity{
             } else {
                 BombermanGame.boms.remove(0);
                 if(BombermanGame.timedown2<3000){
-                    for(int i=0;i<8;i++) {
+                    for(int i=0;i<9;i++) {
                         BombermanGame.explodes.remove(0);
                     }
                 }else {
-                    for(int i=0;i<4;i++) {
+                    for(int i=0;i<5;i++) {
                         BombermanGame.explodes.remove(0);
                     }
                 }
