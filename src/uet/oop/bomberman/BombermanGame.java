@@ -2,13 +2,19 @@ package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
@@ -44,6 +50,9 @@ public class BombermanGame extends Application {
     public int timedown = 1500;
     public static int timedown2 = 3000;
 
+    MotionBlur motionBlur = new MotionBlur();
+    MediaPlayer mediaPlayer ;
+
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -62,10 +71,11 @@ public class BombermanGame extends Application {
     }
 
     private Scene createSceneGui() throws FileNotFoundException {
+        music();
         stage.setTitle("Game Boom");
 
         //background image
-        FileInputStream input = new FileInputStream("res/textures/background_Menu.png");
+        FileInputStream input = new FileInputStream("res/textures/background_Menu.jpg");
         Image image = new Image(input);
         ImageView imageView = new ImageView(image);
 
@@ -77,8 +87,22 @@ public class BombermanGame extends Application {
         Button startgame = new Button("", imageView1);
         startgame.setMaxSize(100, 50);
         startgame.setLayoutX(400);
-        startgame.setLayoutY(250);
+        startgame.setLayoutY(350);
         startgame.setWrapText(true);
+
+        startgame.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                startgame.setEffect(motionBlur);
+            }
+        });
+
+        startgame.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                startgame.setEffect(null);
+            }
+        });
 
         startgame.setOnAction(e -> {
             switchScene(scene);
@@ -90,7 +114,7 @@ public class BombermanGame extends Application {
         root.getChildren().add(imageView);
         root.getChildren().add(startgame);
 
-        scene1 = new Scene(root, 905 ,670);
+        scene1 = new Scene(root, 1000 ,850);
         stage.setScene(scene1);
         stage.show();
 
@@ -136,7 +160,7 @@ public class BombermanGame extends Application {
         stage.setTitle("Game Boom");
 
         //background image
-        FileInputStream input = new FileInputStream("res/textures/game_over.jpg");
+        FileInputStream input = new FileInputStream("res/textures/game_over.png");
         Image image = new Image(input);
         ImageView imageView = new ImageView(image);
         FileInputStream inputStream = new FileInputStream("res/textures/newgame_button.png");
@@ -145,9 +169,23 @@ public class BombermanGame extends Application {
 
         Button newgame = new Button("", imageView1);
         newgame.setMaxSize(100, 50);
-        newgame.setLayoutX(250);
-        newgame.setLayoutY(750);
+        newgame.setLayoutX(450);
+        newgame.setLayoutY(630);
         newgame.setWrapText(true);
+
+        newgame.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                newgame.setEffect(motionBlur);
+            }
+        });
+
+        newgame.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                newgame.setEffect(null);
+            }
+        });
 
         newgame.setOnAction(e -> {
 
@@ -159,9 +197,23 @@ public class BombermanGame extends Application {
 
         Button return_button = new Button("", imageView2);
         return_button.setMaxSize(100, 50);
-        return_button.setLayoutX(550);
-        return_button.setLayoutY(750);
+        return_button.setLayoutX(350);
+        return_button.setLayoutY(630);
         return_button.setWrapText(true);
+
+        return_button.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                return_button.setEffect(motionBlur);
+            }
+        });
+
+        return_button.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                return_button.setEffect(null);
+            }
+        });
 
         return_button.setOnAction(e ->{
             switchScene(scene);
@@ -311,6 +363,7 @@ public class BombermanGame extends Application {
             if((player.get(0).getY() +32)/64 == items.get(i).getY() /64 && (player.get(0).getX() + 32)/64 == items.get(i).getX()/64){
                 speedup=true;
                 items.remove(i);
+                soundbuff();
                 i--;
             }
         }
@@ -318,6 +371,7 @@ public class BombermanGame extends Application {
             if((player.get(0).getY() +32)/64 == items2.get(i).getY() /64 && (player.get(0).getX() + 32)/64 == items2.get(i).getX()/64){
                 bomplus=true;
                 items2.remove(i);
+                soundbuff();
                 i--;
             }
         }
@@ -325,6 +379,7 @@ public class BombermanGame extends Application {
             if((player.get(0).getY() +32)/64 == items3.get(i).getY() /64 && (player.get(0).getX() + 32)/64 == items3.get(i).getX()/64){
                 bombig=true;
                 items3.remove(i);
+                soundbuff();
                 i--;
             }
         }
@@ -373,6 +428,7 @@ public class BombermanGame extends Application {
     }
 
     public void createMap1() {
+        soundwingameearly();
         bricks.clear();
         stillObjects.clear();
         nen.clear();
@@ -758,10 +814,12 @@ public class BombermanGame extends Application {
         if(boms.size()==0) {
             Bom bom = new Bom((player.get(0).getX() + 32) / 64, (player.get(0).getY() + 32) / 64, Sprite.bom.getFxImage());
             boms.add(bom);
+            musicsetBom();
         } else {
             if(!((player.get(0).getX() + 32) / 64==boms.get(0).getX()/64&&(player.get(0).getY() + 32) / 64==boms.get(0).getY()/64)){
                 Bom bom = new Bom((player.get(0).getX() + 32) / 64, (player.get(0).getY() + 32) / 64, Sprite.bom.getFxImage());
                 boms.add(bom);
+                musicsetBom();
             }
         }
     }
@@ -794,4 +852,45 @@ public class BombermanGame extends Application {
     public void switchScene(Scene scene) {
         stage.setScene(scene);
     }
+
+    public void music() {
+        String path = "res/music/background_music.mp3";
+
+        Media media = new Media(new File(path).toURI().toString());
+
+        mediaPlayer = new MediaPlayer(media);
+
+        mediaPlayer.setAutoPlay(true);
+    }
+
+    public void soundbuff() {
+        String path = "res/music/soundbuffeffect.mp3";
+
+        Media media = new Media(new File(path).toURI().toString());
+
+        mediaPlayer = new MediaPlayer(media);
+
+        mediaPlayer.setAutoPlay(true);
+    }
+
+    public void musicsetBom() {
+        String path = "res/music/newbomb.wav";
+
+        Media media = new Media(new File(path).toURI().toString());
+
+        mediaPlayer = new MediaPlayer(media);
+
+        mediaPlayer.setAutoPlay(true);
+    }
+
+    public void soundwingameearly() {
+        String path = "res/music/soundwingameearly.mp3";
+
+        Media media = new Media(new File(path).toURI().toString());
+
+        mediaPlayer = new MediaPlayer(media);
+
+        mediaPlayer.setAutoPlay(true);
+    }
+
 }

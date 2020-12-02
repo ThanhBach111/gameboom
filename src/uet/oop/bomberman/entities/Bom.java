@@ -5,7 +5,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bom extends Entity{
-    int a=600;
+    int a=300;
 
     public Bom(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
@@ -32,7 +32,6 @@ public class Bom extends Entity{
             Explode bomleft = new Explode(getX() / 64 - 1, getY() / 64, Sprite.bomleft.getFxImage());
             Explode bomright = new Explode(getX() / 64 + 1, getY() / 64, Sprite.bomright.getFxImage());
             if(BombermanGame.bombig){
-
                 Explode bomup1 = new Explode(getX() / 64-1, getY() / 64 - 1, Sprite.bomup.getFxImage());
                 Explode bomup2 = new Explode(getX() / 64+1, getY() / 64 - 1, Sprite.bomup.getFxImage());
                 Explode bomdown1 = new Explode(getX() / 64-1, getY() / 64 + 1, Sprite.bomdown.getFxImage());
@@ -41,12 +40,14 @@ public class Bom extends Entity{
                 BombermanGame.explodes.add(bomdown1);
                 BombermanGame.explodes.add(bomup2);
                 BombermanGame.explodes.add(bomdown2);
+
             }
             BombermanGame.explodes.add(bombom);
             BombermanGame.explodes.add(bomup);
             BombermanGame.explodes.add(bomdown);
             BombermanGame.explodes.add(bomleft);
             BombermanGame.explodes.add(bomright);
+
         } else if(a==0){
             if(BombermanGame.boms.size()==1) {
                 BombermanGame.explodes.clear();
@@ -55,11 +56,15 @@ public class Bom extends Entity{
                 BombermanGame.boms.remove(0);
                 if(BombermanGame.timedown2<3000){
                     for(int i=0;i<9;i++) {
+
                         BombermanGame.explodes.remove(0);
+
                     }
                 }else {
                     for(int i=0;i<5;i++) {
+
                         BombermanGame.explodes.remove(0);
+
                     }
                 }
             }
