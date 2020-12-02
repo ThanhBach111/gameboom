@@ -345,10 +345,10 @@ public class BombermanGame extends Application {
                     object = new Wall(i, j, Sprite.wall.getFxImage());
                     stillObjects.add(object);
                 }
-                if(i%2==1&&j%2==0&&j>1&&j<HEIGHT-1){
+                if(i%2==0&&j%2==0&&i>1&&i<WIDTH-1&&j>1&&j<HEIGHT-1){
                     object = new Wall(i, j, Sprite.cay.getFxImage());
                     stillObjects.add(object);
-                } else if(i%2==0&&j%2==0&&i>1&&j>1&&i<WIDTH-1&&j<HEIGHT-1){
+                } else if(i%2==1&&j%2==0&&j>1&&j<HEIGHT-1){
                     Brick brick;
                     brick = new Brick(i,j, Sprite.brick.getFxImage());
                     bricks.add(brick);
@@ -422,6 +422,9 @@ public class BombermanGame extends Application {
                         bricks.add(object);
                         Item item=new Item(i,j,Sprite.bombig.getFxImage());
                         items3.add(item);
+                    } else if(cutline[i].equals("9")){
+                        Bot1 object = new Bot1(i, j, Sprite.bot.getFxImage());
+                        entities.add(object);
                     }
                 }
                 j++;
@@ -486,6 +489,9 @@ public class BombermanGame extends Application {
                         bricks.add(object);
                         Item item=new Item(i,j,Sprite.bombig.getFxImage());
                         items.add(item);
+                    }else if(cutline[i].equals("9")){
+                        Bot1 object = new Bot1(i, j, Sprite.bot.getFxImage());
+                        entities.add(object);
                     }
                 }
                 j++;
@@ -549,6 +555,9 @@ public class BombermanGame extends Application {
                         bricks.add(object);
                         Item item=new Item(i,j,Sprite.bombig.getFxImage());
                         items.add(item);
+                    }else if(cutline[i].equals("9")){
+                        Bot1 object = new Bot1(i, j, Sprite.bot.getFxImage());
+                        entities.add(object);
                     }
                 }
                 j++;
@@ -612,6 +621,9 @@ public class BombermanGame extends Application {
                         bricks.add(object);
                         Item item=new Item(i,j,Sprite.bombig.getFxImage());
                         items.add(item);
+                    }else if(cutline[i].equals("9")){
+                        Bot1 object = new Bot1(i, j, Sprite.bot.getFxImage());
+                        entities.add(object);
                     }
                 }
                 j++;
